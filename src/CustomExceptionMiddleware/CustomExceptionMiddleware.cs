@@ -28,6 +28,8 @@ namespace CustomExceptionMiddleware
 
         public async Task InvokeAsync(HttpContext httpContext)
         {
+            var aa = string.Empty;
+
             try
             {
                 await _next(httpContext);
