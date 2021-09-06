@@ -7,6 +7,20 @@ This is a custom exception middleware that handling all the exceptions or custom
 - [.NET Standard 2.0](https://docs.microsoft.com/en-us/dotnet/standard/net-standard)
 - [.NET 5](https://dotnet.microsoft.com/download/dotnet/5.0)
 
+## Install
+
+- ### Package Manager Console
+
+```
+Install-Package CustomExceptionMiddleware
+```
+
+- ### .Net CLI
+
+```
+dotnet add package CustomExceptionMiddleware
+```
+
 ## How to use
 
 It's very simple to use, go to `Startup.cs` on `Configure()` method and add this code:
