@@ -1,4 +1,4 @@
-name: .NET
+name: workflow custom-exception-middleware
 
 on:
   push:
@@ -70,6 +70,6 @@ jobs:
         shell: pwsh
         run: |
           .\.sonar\scanner\dotnet-sonarscanner begin /k:"isaacnborges_custom-exception-middleware" /o:"isaacnborges" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"          
-          dotnet test "./tests/CustomExceptionMiddleware.Tests/CustomExceptionMiddleware.Tests.csproj" --collect:"Code Coverage" --configuration release -r ./TestResults --logger "trx;LogFileName=testoutput.trx"
           dotnet build --configuration Release
+          dotnet test "./tests/CustomExceptionMiddleware.Tests/CustomExceptionMiddleware.Tests.csproj" --collect:"XPlat Code Coverage" --results-directory TestResults/ --logger "trx;LogFileName=unittests.trx" --no-build --no-restore --configuration release -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
