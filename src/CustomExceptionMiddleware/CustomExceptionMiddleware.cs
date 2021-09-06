@@ -95,7 +95,7 @@ namespace CustomExceptionMiddleware
             return result;
         }
 
-        private void ConfigureResponseContext(HttpContext httpContext, HttpStatusCode statusCode)
+        private static void ConfigureResponseContext(HttpContext httpContext, HttpStatusCode statusCode)
         {
             httpContext.Response.ContentType = "application/json";
             httpContext.Response.StatusCode = statusCode.GetIntValue();

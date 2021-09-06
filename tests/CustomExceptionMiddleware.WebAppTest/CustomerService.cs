@@ -29,10 +29,12 @@ namespace CustomExceptionMiddleware.WebAppTest
 
         public IEnumerable<Customer> GetException()
         {
+            #pragma warning disable S112 // General exceptions should never be thrown
             throw new Exception("Custom exception message");
+            #pragma warning restore S112 // General exceptions should never be thrown
         }
 
-        private IEnumerable<Customer> GetCustomers(int count)
+        private static IEnumerable<Customer> GetCustomers(int count)
         {
             var fake = new Faker<Customer>()
                 .CustomInstantiator(x => new Customer
