@@ -69,6 +69,7 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         shell: pwsh
         run: |
-          .\.sonar\scanner\dotnet-sonarscanner begin /k:"isaacnborges_custom-exception-middleware" /o:"isaacnborges" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
+          .\.sonar\scanner\dotnet-sonarscanner begin /k:"isaacnborges_custom-exception-middleware" /o:"isaacnborges" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"          
+          dotnet test "./tests/CustomExceptionMiddleware.Tests/CustomExceptionMiddleware.Tests.csproj" --collect:"Code Coverage" --configuration release -r ./TestResults --logger "trx;LogFileName=testoutput.trx"
           dotnet build --configuration Release
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
