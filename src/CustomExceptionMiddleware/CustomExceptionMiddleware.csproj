@@ -8,7 +8,7 @@
     <Company>isaacnborges</Company>
     <PackageId>CustomExceptionMiddleware</PackageId>
     <PackageProjectUrl>https://github.com/isaacnborges/custom-exception-middleware</PackageProjectUrl>
-    <PackageTags>Middleware;Exception;CustomExceptions;Message</PackageTags>
+    <PackageTags>Middleware;Exception;CustomExceptions;Message;Error;ErrorHandling;ErrorMessages</PackageTags>
     <Description>
       Middleware to catch custom exceptions
     </Description>

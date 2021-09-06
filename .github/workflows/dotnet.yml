@@ -36,7 +36,6 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 1.11
-
       - uses: actions/checkout@v2
         with:
           fetch-depth: 0
@@ -69,9 +68,9 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         shell: pwsh
         run: |
-          .\.sonar\scanner\dotnet-sonarscanner begin /k:"isaacnborges_custom-exception-middleware" /o:"isaacnborges" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"          
-          dotnet build --configuration Release
-          dotnet test "./tests/CustomExceptionMiddleware.Tests/CustomExceptionMiddleware.Tests.csproj" --collect:"XPlat Code Coverage" --results-directory TestResults/ --logger "trx;LogFileName=unittests.trx" --no-build --no-restore --configuration release -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover
+          dotnet tool upadate --global dotnet-reportgenerator-globaltool
+          .\.sonar\scanner\dotnet-sonarscanner begin /k:"isaacnborges_custom-exception-middleware" /o:"isaacnborges" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
+          dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=opencover -l trx
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
 
   nuget-pack:
