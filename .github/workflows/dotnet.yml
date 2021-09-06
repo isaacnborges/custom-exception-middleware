@@ -1,4 +1,4 @@
-name: workflow custom-exception-middleware
+name: workflow middleware
 
 on:
   push:
@@ -28,8 +28,8 @@ jobs:
       run: dotnet test --no-build --verbosity normal
 
   sonar:
-    needs: build
     name: SonarCloud
+    needs: build
     runs-on: windows-latest  
     steps:
       - name: Set up JDK 11
@@ -73,3 +73,22 @@ jobs:
           dotnet build --configuration Release
           dotnet test "./tests/CustomExceptionMiddleware.Tests/CustomExceptionMiddleware.Tests.csproj" --collect:"XPlat Code Coverage" --results-directory TestResults/ --logger "trx;LogFileName=unittests.trx" --no-build --no-restore --configuration release -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
+
+  nuget-pack:
+    name: Nuget Package
+    needs: sonar
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup .NET 5
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 5.0.x
+
+    - name: Generate package
+      run: dotnet pack ./srs/CustomExceptionMiddleware/CustomExceptionMiddleware.csproj -c Release -o out
+
+    - name: Push nuget
+      run: |
+        cd out
+        dotnet nuget push *.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source ${{ secrets.NUGET_SERVER }} --skip-duplicate

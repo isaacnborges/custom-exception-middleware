@@ -3,6 +3,15 @@
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0; net5.0</TargetFrameworks>
     <ProjectGuid>{90802F9F-8E08-45A0-A14C-7C006E9C2C62}</ProjectGuid>
+    <Version>0.0.1</Version>
+    <Authors>Isaac Nunes Borges</Authors>
+    <Company>isaacnborges</Company>
+    <PackageId>CustomExceptionMiddleware</PackageId>
+    <PackageProjectUrl>https://github.com/isaacnborges/custom-exception-middleware</PackageProjectUrl>
+    <PackageTags>Middleware;Exception;CustomExceptions;Message</PackageTags>
+    <Description>
+      Middleware to catch custom exceptions
+    </Description>
   </PropertyGroup>
 
   <ItemGroup>
