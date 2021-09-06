@@ -9,10 +9,17 @@ This is a custom exception middleware that handling all the exceptions or custom
 
 ## How to use
 
-It's very simple to use, go to `Startup.cs` on Configure() method and add this code:
+It's very simple to use, go to `Startup.cs` on `Configure()` method and add this code:
 
 ```c#
 app.UseCustomExceptionMiddleware();
+```
+
+Example output    
+```
+{
+    "ErrorMessage": "Custom not found exception message"
+}
 ```
 
 ### Custom use
@@ -30,6 +37,15 @@ It's possible create a `CustomExceptionOptions` to customize the return middlewa
     });
     ```
 
+    Example output
+    ```
+    {
+        "Type": "TestType",
+        "Success": false,
+        "ErrorMessage": "Custom not found exception message"
+    }
+    ```
+
 2. Use an action options <br/>
 Other options to customize the return object is using an action to create a `CustomErrorModel`
     ```c#
@@ -42,3 +58,43 @@ Other options to customize the return object is using an action to create a `Cus
         };
     });
     ```
+
+    Example output
+    ```
+    {
+        "Type": "TestType",
+        "Success": false,
+        "ErrorMessage": "Custom not found exception message"
+    }
+    ```
+
+### Configure Exceptions
+This middleware use some custom exceptions to catch and personalize the response status code.
+
+The custom middleware supports the following **Exceptions**:
+
+| Exception             | Status code description | Status code |
+|-----------------------|-------------------------|-------------|
+| DomainException       | BadRequest              | 400         |
+| CannotAccessException | Forbidden               | 403         |
+| NotFoundException     | NotFound                | 404         |
+| Exception             | InternalServerError     | 500         |
+
+`DomainException` is an abstract exception, so to use it's necessary create other exception and inherit. The others exceptions only throw an exception
+
+#### Custom exception example
+```c#
+public class InvalidStateException : DomainException
+{
+    public InvalidStateException(string message) : base(message)
+    { }
+}
+```    
+
+#### Throw exceptions
+```c#
+throw new InvalidStateException("Custom domain exception message");
+throw new CannotAccessException("Custom cannot access exception message");
+throw new NotFoundException("Custom not found exception message");
+throw new Exception("Custom exception message");
+```
