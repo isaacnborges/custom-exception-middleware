@@ -86,7 +86,7 @@ jobs:
         dotnet-version: 5.0.x
 
     - name: Generate package
-      run: dotnet pack ./srs/CustomExceptionMiddleware/CustomExceptionMiddleware.csproj -c Release -o out
+      run: dotnet pack ./src/CustomExceptionMiddleware/CustomExceptionMiddleware.csproj -c Release -o out
 
     - name: Push nuget
       run: |
