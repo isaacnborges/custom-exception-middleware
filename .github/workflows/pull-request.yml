@@ -1,8 +1,6 @@
 name: workflow middleware
 
 on:
-  push:
-    branches: [ main ]
   pull_request:
     branches: [ main ]
 
