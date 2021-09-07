@@ -1,9 +1,7 @@
-name: workflow middleware
+name: workflow nuget
 
 on:
   push:
-    branches: [ main ]
-  pull_request:
     branches: [ main ]
 
 jobs:
@@ -73,3 +71,22 @@ jobs:
           .\.sonar\scanner\dotnet-sonarscanner begin /k:"isaacnborges_custom-exception-middleware" /o:"isaacnborges" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.cs.opencover.reportsPaths="./tests/CustomExceptionMiddleware.Tests/coverage.opencover.xml" /d:sonar.coverage.exclusions="**Tests*.cs" /d:sonar.host.url="https://sonarcloud.io"
           dotnet build --configuration Release
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
+
+  nuget-pack:
+    name: Nuget Package
+    needs: sonar
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup .NET 5
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 5.0.x
+
+    - name: Generate package
+      run: dotnet pack ./src/CustomExceptionMiddleware/CustomExceptionMiddleware.csproj -c Release -o out
+
+    - name: Push nuget
+      run: |
+        cd out
+        dotnet nuget push *.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source ${{ secrets.NUGET_SERVER }} --skip-duplicate
