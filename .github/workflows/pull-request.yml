@@ -1,4 +1,4 @@
-name: workflow middleware
+name: workflow pull-request
 
 on:
   pull_request:

@@ -1,4 +1,4 @@
-name: workflow nuget
+name: workflow deploy-pack
 
 on:
   push:
