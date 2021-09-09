@@ -4,7 +4,7 @@
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=isaacnborges_custom-exception-middleware&metric=alert_status)](https://sonarcloud.io/dashboard?id=isaacnborges_custom-exception-middleware)
 [![Nuget](https://img.shields.io/nuget/v/CustomExceptionMiddleware?label=Nuget&style=flat)](https://www.nuget.org/packages/CustomExceptionMiddleware/)
 
-This is a custom exception middleware that handling all the exceptions or custom exceptions in your project.
+It is a middleware for error handling in [ASP.NET](https://dotnet.microsoft.com/apps/aspnet) projects, the application aims to facilitate and handle when an accidental or custom exception occurs in the project.
 
 ## Dependencies
 
