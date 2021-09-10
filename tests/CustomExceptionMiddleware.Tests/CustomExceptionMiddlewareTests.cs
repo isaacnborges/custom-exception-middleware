@@ -53,6 +53,7 @@ namespace CustomExceptionMiddleware.Tests
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
             var responseContent = await response.Content.ReadAsAsync<CustomErrorResponse>();
             responseContent.Should().NotBeNull();
+            responseContent.ErrorMessage.Should().Be("Custom domain exception message");
         }
 
         [Fact(DisplayName = "Should return forbidden and throw a cannot access exception")]
@@ -69,6 +70,7 @@ namespace CustomExceptionMiddleware.Tests
             response.StatusCode.Should().Be(HttpStatusCode.Forbidden);
             var responseContent = await response.Content.ReadAsAsync<CustomErrorResponse>();
             responseContent.Should().NotBeNull();
+            responseContent.ErrorMessage.Should().Be("Custom cannot access exception message");
         }
 
         [Fact(DisplayName = "Should return not found and throw a not found exception")]
@@ -85,6 +87,7 @@ namespace CustomExceptionMiddleware.Tests
             response.StatusCode.Should().Be(HttpStatusCode.NotFound);
             var responseContent = await response.Content.ReadAsAsync<CustomErrorResponse>();
             responseContent.Should().NotBeNull();
+            responseContent.ErrorMessage.Should().Be("Custom not found exception message");
         }
 
         [Fact(DisplayName = "Should return internal server error and throw an exception")]
@@ -101,6 +104,7 @@ namespace CustomExceptionMiddleware.Tests
             response.StatusCode.Should().Be(HttpStatusCode.InternalServerError);
             var responseContent = await response.Content.ReadAsAsync<CustomErrorResponse>();
             responseContent.Should().NotBeNull();
+            responseContent.ErrorMessage.Should().Be("Custom exception message");
         }
     }
 }
