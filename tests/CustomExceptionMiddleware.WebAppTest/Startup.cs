@@ -39,22 +39,6 @@ namespace CustomExceptionMiddleware.WebAppTest
             app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "CustomExceptionMiddleware.WebAppTest v1"));
 
             app.UseCustomExceptionMiddleware();
-            app.UseCustomExceptionMiddleware(new CustomExceptionOptions
-            {
-                CustomErrorModel = new
-                {
-                    Value = "Value",
-                    CustomType = "SomeType"
-                }
-            });
-            app.UseCustomExceptionMiddleware(options =>
-            {
-                options.CustomErrorModel = new
-                {
-                    Type = "TestType",
-                    Success = false
-                };
-            });
 
             app.UseRouting();
 
