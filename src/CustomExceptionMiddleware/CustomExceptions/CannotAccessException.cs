@@ -1,12 +1,16 @@
 ﻿using System;
+using System.Runtime.Serialization;
 
 namespace CustomExceptionMiddleware.CustomExceptions
 {
-    #pragma warning disable S3925 // "ISerializable" should be implemented correctly
+    [Serializable]
     public class CannotAccessException : Exception
-    #pragma warning restore S3925 // "ISerializable" should be implemented correctly
     {
         public CannotAccessException(string message) : base(message)
+        { }
+
+        protected CannotAccessException(SerializationInfo info, StreamingContext context)
+            : base(info, context)
         { }
     }
 }

@@ -1,12 +1,17 @@
 ﻿using CustomExceptionMiddleware.CustomExceptions;
+using System;
+using System.Runtime.Serialization;
 
 namespace CustomExceptionMiddleware.WebAppTest
 {
-    #pragma warning disable S3925 // "ISerializable" should be implemented correctly
+    [Serializable]
     public class InvalidStateException : DomainException
-    #pragma warning restore S3925 // "ISerializable" should be implemented correctly
     {
         public InvalidStateException(string message) : base(message)
+        { }
+
+        protected InvalidStateException(SerializationInfo info, StreamingContext context)
+            : base(info, context)
         { }
     }
 }
