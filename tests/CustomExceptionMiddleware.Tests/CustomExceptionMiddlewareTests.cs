@@ -11,12 +11,12 @@ namespace CustomExceptionMiddleware.Tests
 {
     public class CustomExceptionMiddlewareTests : IClassFixture<WebApplicationFactory<Startup>>
     {
-        private readonly WebApplicationFactory<Startup> _factory;
+        private readonly HttpClient _client;
         private string _url = "/customer";
 
         public CustomExceptionMiddlewareTests(WebApplicationFactory<Startup> factory)
         {
-            _factory = factory;
+            _client = factory.CreateClient();
         }
 
         [Theory(DisplayName = "Should return Ok and get customers")]
@@ -27,10 +27,9 @@ namespace CustomExceptionMiddleware.Tests
         {
             // Arrange
             _url += $"?count={count}";
-            var client = _factory.CreateClient();
 
             // Act
-            var response = await client.GetAsync(_url);
+            var response = await _client.GetAsync(_url);
 
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -44,10 +43,9 @@ namespace CustomExceptionMiddleware.Tests
         {
             // Arrange
             _url += "/domain";
-            var client = _factory.CreateClient();
 
             // Act
-            var response = await client.GetAsync(_url);
+            var response = await _client.GetAsync(_url);
 
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -61,10 +59,9 @@ namespace CustomExceptionMiddleware.Tests
         {
             // Arrange
             _url += "/cannot-access";
-            var client = _factory.CreateClient();
 
             // Act
-            var response = await client.GetAsync(_url);
+            var response = await _client.GetAsync(_url);
 
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.Forbidden);
@@ -78,10 +75,9 @@ namespace CustomExceptionMiddleware.Tests
         {
             // Arrange
             _url += "/not-found";
-            var client = _factory.CreateClient();
 
             // Act
-            var response = await client.GetAsync(_url);
+            var response = await _client.GetAsync(_url);
 
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.NotFound);
@@ -95,10 +91,9 @@ namespace CustomExceptionMiddleware.Tests
         {
             // Arrange
             _url += "/exception";
-            var client = _factory.CreateClient();
 
             // Act
-            var response = await client.GetAsync(_url);
+            var response = await _client.GetAsync(_url);
 
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.InternalServerError);
