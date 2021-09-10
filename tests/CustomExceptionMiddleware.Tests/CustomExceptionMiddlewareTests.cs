@@ -101,6 +101,66 @@ namespace CustomExceptionMiddleware.Tests
             responseContent.Should().NotBeNull();
             responseContent.ErrorMessage.Should().Be("Custom exception message");
         }
+
+        [Fact(DisplayName = "Should return Ok and get customers from domain url")]
+        public async Task GetAsyncDomain_GetCustomers_ShouldReturnOK()
+        {
+            // Arrange
+            _url += $"/domain?returnCustomer={true}";
+
+            // Act
+            var response = await _client.GetAsync(_url);
+
+            // Assert
+            response.StatusCode.Should().Be(HttpStatusCode.OK);
+            var responseContent = await response.Content.ReadAsAsync<IEnumerable<Customer>>();
+            responseContent.Should().NotBeNullOrEmpty();
+        }
+
+        [Fact(DisplayName = "Should return Ok and get customers from cannot access url")]
+        public async Task GetAsyncCannotAccess_GetCustomers_ShouldReturnOK()
+        {
+            // Arrange
+            _url += $"/cannot-access?returnCustomer={true}";
+
+            // Act
+            var response = await _client.GetAsync(_url);
+
+            // Assert
+            response.StatusCode.Should().Be(HttpStatusCode.OK);
+            var responseContent = await response.Content.ReadAsAsync<IEnumerable<Customer>>();
+            responseContent.Should().NotBeNullOrEmpty();
+        }
+
+        [Fact(DisplayName = "Should return Ok and get customers from not found url")]
+        public async Task GetAsyncNotFound_GetCustomers_ShouldReturnOK()
+        {
+            // Arrange
+            _url += $"/not-found?returnCustomer={true}";
+
+            // Act
+            var response = await _client.GetAsync(_url);
+
+            // Assert
+            response.StatusCode.Should().Be(HttpStatusCode.OK);
+            var responseContent = await response.Content.ReadAsAsync<IEnumerable<Customer>>();
+            responseContent.Should().NotBeNullOrEmpty();
+        }
+
+        [Fact(DisplayName = "Should return Ok and get customers from exception url")]
+        public async Task GetAsyncException_GetCustomers_ShouldReturnOK()
+        {
+            // Arrange
+            _url += $"/exception?returnCustomer={true}";
+
+            // Act
+            var response = await _client.GetAsync(_url);
+
+            // Assert
+            response.StatusCode.Should().Be(HttpStatusCode.OK);
+            var responseContent = await response.Content.ReadAsAsync<IEnumerable<Customer>>();
+            responseContent.Should().NotBeNullOrEmpty();
+        }
     }
 }
 

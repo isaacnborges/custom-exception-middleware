@@ -21,30 +21,30 @@ namespace CustomExceptionMiddleware.WebAppTest.Controllers
         }
 
         [HttpGet("domain")]
-        public IActionResult GetDomain()
+        public IActionResult GetDomain([FromQuery] bool returnCustomer = false)
         {
-            var result = _customerService.GetDomainException();
+            var result = _customerService.GetDomainException(returnCustomer);
             return Ok(result);
         }
 
         [HttpGet("cannot-access")]
-        public IActionResult GetCannotAccess()
+        public IActionResult GetCannotAccess([FromQuery] bool returnCustomer = false)
         {
-            var result = _customerService.GetCannotAccessException();
+            var result = _customerService.GetCannotAccessException(returnCustomer);
             return Ok(result);
         }
 
         [HttpGet("not-found")]
-        public IActionResult GetNotFound()
+        public IActionResult GetNotFound([FromQuery] bool returnCustomer = false)
         {
-            var result = _customerService.GetNotFoundException();
+            var result = _customerService.GetNotFoundException(returnCustomer);
             return Ok(result);
         }
 
         [HttpGet("exception")]
-        public IActionResult GetException()
+        public IActionResult GetException([FromQuery] bool returnCustomer = false)
         {
-            var result = _customerService.GetException();
+            var result = _customerService.GetException(returnCustomer);
             return Ok(result);
         }
     }

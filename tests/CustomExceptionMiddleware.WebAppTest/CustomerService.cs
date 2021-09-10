@@ -12,27 +12,39 @@ namespace CustomExceptionMiddleware.WebAppTest
             return GetCustomers(customersCount);
         }
 
-        public IEnumerable<Customer> GetDomainException()
+        public IEnumerable<Customer> GetDomainException(bool returnCustomers)
         {
+            if (returnCustomers)
+                return GetCustomers();
+
             throw new InvalidStateException("Custom domain exception message");
         }
 
-        public IEnumerable<Customer> GetCannotAccessException()
+        public IEnumerable<Customer> GetCannotAccessException(bool returnCustomers)
         {
+            if (returnCustomers)
+                return GetCustomers();
+
             throw new CannotAccessException("Custom cannot access exception message");
         }
 
-        public IEnumerable<Customer> GetNotFoundException()
+        public IEnumerable<Customer> GetNotFoundException(bool returnCustomers)
         {
+            if (returnCustomers)
+                return GetCustomers();
+
             throw new NotFoundException("Custom not found exception message");
         }
 
-        public IEnumerable<Customer> GetException()
+        public IEnumerable<Customer> GetException(bool returnCustomers)
         {
+            if (returnCustomers)
+                return GetCustomers();
+
             throw new Exception("Custom exception message");
         }
 
-        private static IEnumerable<Customer> GetCustomers(int customersCount)
+        private static IEnumerable<Customer> GetCustomers(int customersCount = 10)
         {
             var fake = new Faker<Customer>()
                 .CustomInstantiator(x => new Customer
