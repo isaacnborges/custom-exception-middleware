@@ -7,9 +7,9 @@ namespace CustomExceptionMiddleware.WebAppTest
 {
     public class CustomerService : ICustomerService
     {
-        public IEnumerable<Customer> Get(int count)
+        public IEnumerable<Customer> Get(int customersCount)
         {
-            return GetCustomers(count);
+            return GetCustomers(customersCount);
         }
 
         public IEnumerable<Customer> GetDomainException()
@@ -32,7 +32,7 @@ namespace CustomExceptionMiddleware.WebAppTest
             throw new Exception("Custom exception message");
         }
 
-        private static IEnumerable<Customer> GetCustomers(int count)
+        private static IEnumerable<Customer> GetCustomers(int customersCount)
         {
             var fake = new Faker<Customer>()
                 .CustomInstantiator(x => new Customer
@@ -40,7 +40,7 @@ namespace CustomExceptionMiddleware.WebAppTest
                     Name = x.Person.FullName
                 });
 
-            return fake.Generate(count);
+            return fake.Generate(customersCount);
         }
     }
 }

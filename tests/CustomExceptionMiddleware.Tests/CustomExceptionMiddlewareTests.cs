@@ -23,10 +23,10 @@ namespace CustomExceptionMiddleware.Tests
         [InlineData(5)]
         [InlineData(10)]
         [InlineData(50)]
-        public async Task GetAsync_GetCustomers_ShouldReturnOK(int count)
+        public async Task GetAsync_GetCustomers_ShouldReturnOK(int customersCount)
         {
             // Arrange
-            _url += $"?count={count}";
+            _url += $"?count={customersCount}";
 
             // Act
             var response = await _client.GetAsync(_url);
@@ -35,7 +35,7 @@ namespace CustomExceptionMiddleware.Tests
             response.StatusCode.Should().Be(HttpStatusCode.OK);
             var responseContent = await response.Content.ReadAsAsync<IEnumerable<Customer>>();
             responseContent.Should().NotBeNullOrEmpty();
-            responseContent.Should().HaveCount(count);
+            responseContent.Should().HaveCount(customersCount);
         }
 
         [Fact(DisplayName = "Should return bad request and throw a domain exception")]
