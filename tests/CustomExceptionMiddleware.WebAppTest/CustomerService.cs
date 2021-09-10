@@ -41,7 +41,9 @@ namespace CustomExceptionMiddleware.WebAppTest
             if (returnCustomers)
                 return GetCustomers();
 
+            #pragma warning disable S112 // General exceptions should never be thrown
             throw new Exception("Custom exception message");
+            #pragma warning restore S112 // General exceptions should never be thrown
         }
 
         private static IEnumerable<Customer> GetCustomers(int customersCount = 10)
