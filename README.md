@@ -20,12 +20,9 @@ Install-Package CustomExceptionMiddleware
 dotnet add package CustomExceptionMiddleware
 ```
 
-## Compatibility
+### Minimum requirements to use: [.NET Standard 2.0](https://docs.microsoft.com/en-us/dotnet/standard/net-standard)
 
-- Minimum Requirements: [.NET Standard 2.0](https://docs.microsoft.com/en-us/dotnet/standard/net-standard)
-- Available support: [.NET 5](https://dotnet.microsoft.com/download/dotnet/5.0)
-
-<br/>
+### Compilation requirements: [.NET 5](https://dotnet.microsoft.com/download/dotnet/5.0)
 
 ## How to use
 
