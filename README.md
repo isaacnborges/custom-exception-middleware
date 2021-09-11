@@ -6,11 +6,6 @@
 
 It is a middleware for error handling in [ASP.NET](https://dotnet.microsoft.com/apps/aspnet) projects, the application aims to facilitate and handle when an accidental or custom exception occurs in the project.
 
-## Dependencies
-
-- [.NET Standard 2.0](https://docs.microsoft.com/en-us/dotnet/standard/net-standard)
-- [.NET 5](https://dotnet.microsoft.com/download/dotnet/5.0)
-
 ## Install
 
 - ### Package Manager Console
@@ -24,6 +19,13 @@ Install-Package CustomExceptionMiddleware
 ```
 dotnet add package CustomExceptionMiddleware
 ```
+
+## Compatibility
+
+- Minimum Requirements: [.NET Standard 2.0](https://docs.microsoft.com/en-us/dotnet/standard/net-standard)
+- Available support: [.NET 5](https://dotnet.microsoft.com/download/dotnet/5.0)
+
+<br/>
 
 ## How to use
 
