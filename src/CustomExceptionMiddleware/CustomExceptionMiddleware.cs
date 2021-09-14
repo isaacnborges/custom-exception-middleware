@@ -83,7 +83,7 @@ namespace CustomExceptionMiddleware
         private string GetResultException(Exception exception)
         {
             string result;
-            if (_options.CustomErrorModel == null)
+            if (_options.CustomErrorModel is null)
                 result = JsonSerializer.Serialize(new CustomErrorResponse(exception.Message));
             else
             {
@@ -109,4 +109,3 @@ namespace CustomExceptionMiddleware
         }
     }
 }
-
