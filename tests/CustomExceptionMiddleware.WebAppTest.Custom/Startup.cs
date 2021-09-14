@@ -5,7 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 
-namespace CustomExceptionMiddleware.WebAppTest
+namespace CustomExceptionMiddleware.WebAppTest.Custom
 {
     public class Startup
     {
@@ -19,13 +19,12 @@ namespace CustomExceptionMiddleware.WebAppTest
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "CustomExceptionMiddleware.WebAppTest", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "CustomExceptionMiddleware.WebAppTest.Custom", Version = "v1" });
             });
 
-            services.AddScoped<ICustomerService, CustomerService>();
+            services.AddScoped<IProductService, ProductService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -33,12 +32,26 @@ namespace CustomExceptionMiddleware.WebAppTest
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseSwagger();
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "CustomExceptionMiddleware.WebAppTest.Custom v1"));
             }
 
-            app.UseSwagger();
-            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "CustomExceptionMiddleware.WebAppTest v1"));
-
-            app.UseCustomExceptionMiddleware();
+            app.UseCustomExceptionMiddleware(new CustomExceptionOptions
+            {
+                CustomErrorModel = new
+                {
+                    CustomValue = "ValueObject",
+                    Success = false
+                }
+            });
+            app.UseCustomExceptionMiddleware(options =>
+            {
+                options.CustomErrorModel = new
+                {
+                    CustomValue = "ValueAction",
+                    Success = false
+                };
+            });
 
             app.UseRouting();
 

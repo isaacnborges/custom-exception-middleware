@@ -8,14 +8,14 @@ using Xunit;
 
 namespace CustomExceptionMiddleware.Tests
 {
-    public class CustomExceptionMiddlewareTests : IClassFixture<WebApplicationFactory<Startup>>
+    public class CustomExceptionMiddlewareWebAppTests : IClassFixture<WebApplicationFactory<Startup>>
     {
         private readonly HttpClient _client;
         private string _url = "/customer";
         private const string UnexpectedError = "UNEXPECTED_ERROR";
         private const string ValidationErrors = "VALIDATION_ERRORS";
 
-        public CustomExceptionMiddlewareTests(WebApplicationFactory<Startup> factory)
+        public CustomExceptionMiddlewareWebAppTests(WebApplicationFactory<Startup> factory)
         {
             _client = factory.CreateClient();
         }

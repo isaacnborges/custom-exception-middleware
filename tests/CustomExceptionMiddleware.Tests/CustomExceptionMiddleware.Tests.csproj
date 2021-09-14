@@ -29,6 +29,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\CustomExceptionMiddleware\CustomExceptionMiddleware.csproj" />
+    <ProjectReference Include="..\CustomExceptionMiddleware.WebAppTest.Custom\CustomExceptionMiddleware.WebAppTest.Custom.csproj" />
     <ProjectReference Include="..\CustomExceptionMiddleware.WebAppTest\CustomExceptionMiddleware.WebAppTest.csproj" />
   </ItemGroup>
 
