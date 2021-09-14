@@ -111,7 +111,7 @@ namespace CustomExceptionMiddleware
             return errorModel;
         }
 
-        private CustomErrorResponse BuildCustomErrorResponse(Exception exception)
+        private static CustomErrorResponse BuildCustomErrorResponse(Exception exception)
         {
             return new CustomErrorResponse
             {
