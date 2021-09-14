@@ -33,9 +33,12 @@ app.UseCustomExceptionMiddleware();
 ```
 
 Example output    
-```
+```json
 {
-    "ErrorMessage": "Custom not found exception message"
+    "type": "VALIDATION_ERRORS",
+    "error": {
+        "msg": "Custom domain exception message"
+    }
 }
 ```
 
@@ -48,18 +51,21 @@ It's possible create a `CustomExceptionOptions` to customize the return middlewa
     {
         CustomErrorModel = new
         {
+            CustomValue = "ValueObject",
             Success = false
-            Type = "ErrorType"
         }
     });
     ```
 
     Example output
-    ```
+    ```json
     {
-        "Type": "TestType",
-        "Success": false,
-        "ErrorMessage": "Custom not found exception message"
+        "customValue": "ValueObject",
+        "success": false,
+        "type": "VALIDATION_ERRORS",
+        "error": {
+            "msg": "Custom domain exception message"
+        }
     }
     ```
 
@@ -70,18 +76,21 @@ Other options to customize the return object is using an action to create a `Cus
     {
         options.CustomErrorModel = new
         {
+            CustomValue = "ValueAction",
             Success = false
-            Type = "ErrorType"
         };
     });
     ```
 
     Example output
-    ```
+    ```json
     {
-        "Type": "TestType",
-        "Success": false,
-        "ErrorMessage": "Custom not found exception message"
+        "customValue": "ValueAction",
+        "success": false,
+        "type": "VALIDATION_ERRORS",
+        "error": {
+            "msg": "Custom domain exception message"
+        }
     }
     ```
 

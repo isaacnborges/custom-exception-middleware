@@ -43,15 +43,15 @@ namespace CustomExceptionMiddleware.WebAppTest
             {
                 CustomErrorModel = new
                 {
-                    Value = "Value",
-                    CustomType = "SomeType"
+                    CustomValue = "ValueObject",
+                    Success = false
                 }
             });
             app.UseCustomExceptionMiddleware(options =>
             {
                 options.CustomErrorModel = new
                 {
-                    Type = "TestType",
+                    CustomValue = "ValueAction",
                     Success = false
                 };
             });

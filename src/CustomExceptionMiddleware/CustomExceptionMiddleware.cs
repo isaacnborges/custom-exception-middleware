@@ -15,6 +15,8 @@ namespace CustomExceptionMiddleware
         private readonly RequestDelegate _next;
         private readonly ILogger<CustomExceptionMiddleware> _logger;
         private readonly CustomExceptionOptions _options;
+        private const string UnexpectedError = "UNEXPECTED_ERROR";
+        private const string ValidationErrors = "VALIDATION_ERRORS";
 
         public CustomExceptionMiddleware(
             RequestDelegate next,
@@ -82,17 +84,43 @@ namespace CustomExceptionMiddleware
 
         private string GetResultException(Exception exception)
         {
-            string result;
-            if (_options.CustomErrorModel is null)
-                result = JsonSerializer.Serialize(new CustomErrorResponse(exception.Message));
-            else
+            var serializeOptions = new JsonSerializerOptions
             {
-                dynamic errorModel = _options.CustomErrorModel.ToExpandoObject();
-                errorModel.ErrorMessage = exception.Message;
-                result = JsonSerializer.Serialize(errorModel);
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+                WriteIndented = true
+            };
+
+            if (_options.CustomErrorModel is null)
+            {
+                var customErrorResponse = BuildCustomErrorResponse(exception);
+                return JsonSerializer.Serialize(customErrorResponse, serializeOptions);
             }
 
-            return result;
+            var errorModel = BuildDynamicErrorModel(exception);
+            return JsonSerializer.Serialize(errorModel, serializeOptions);
+        }
+
+        private dynamic BuildDynamicErrorModel(Exception exception)
+        {
+            dynamic errorModel = _options.CustomErrorModel.ToExpandoObject();
+            errorModel.Type = exception.GetType().Name.Equals(nameof(Exception)) ? UnexpectedError : ValidationErrors;
+            errorModel.Error = new
+            {
+                Msg = exception.Message
+            };
+            return errorModel;
+        }
+
+        private CustomErrorResponse BuildCustomErrorResponse(Exception exception)
+        {
+            return new CustomErrorResponse
+            {
+                Type = exception.GetType().Name.Equals(nameof(Exception)) ? UnexpectedError : ValidationErrors,
+                Error = new CustomError
+                {
+                    Msg = exception.Message
+                }
+            };
         }
 
         private static void ConfigureResponseContext(HttpContext httpContext, HttpStatusCode statusCode)
