@@ -2,7 +2,6 @@ using CustomExceptionMiddleware.WebAppTest;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc.Testing;
 using System.Collections.Generic;
-using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Xunit;
@@ -32,7 +31,7 @@ namespace CustomExceptionMiddleware.Tests
             var response = await _client.GetAsync(_url);
 
             // Assert
-            response.StatusCode.Should().Be(HttpStatusCode.OK);
+            response.Should().Be200Ok();
             var responseContent = await response.Content.ReadAsAsync<IEnumerable<Customer>>();
             responseContent.Should().NotBeNullOrEmpty();
             responseContent.Should().HaveCount(customersCount);
@@ -48,7 +47,7 @@ namespace CustomExceptionMiddleware.Tests
             var response = await _client.GetAsync(_url);
 
             // Assert
-            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+            response.Should().Be400BadRequest();
             var responseContent = await response.Content.ReadAsAsync<CustomErrorResponse>();
             responseContent.Should().NotBeNull();
             responseContent.ErrorMessage.Should().Be("Custom domain exception message");
@@ -64,7 +63,7 @@ namespace CustomExceptionMiddleware.Tests
             var response = await _client.GetAsync(_url);
 
             // Assert
-            response.StatusCode.Should().Be(HttpStatusCode.Forbidden);
+            response.Should().Be403Forbidden();
             var responseContent = await response.Content.ReadAsAsync<CustomErrorResponse>();
             responseContent.Should().NotBeNull();
             responseContent.ErrorMessage.Should().Be("Custom cannot access exception message");
@@ -80,7 +79,7 @@ namespace CustomExceptionMiddleware.Tests
             var response = await _client.GetAsync(_url);
 
             // Assert
-            response.StatusCode.Should().Be(HttpStatusCode.NotFound);
+            response.Should().Be404NotFound();
             var responseContent = await response.Content.ReadAsAsync<CustomErrorResponse>();
             responseContent.Should().NotBeNull();
             responseContent.ErrorMessage.Should().Be("Custom not found exception message");
@@ -96,7 +95,7 @@ namespace CustomExceptionMiddleware.Tests
             var response = await _client.GetAsync(_url);
 
             // Assert
-            response.StatusCode.Should().Be(HttpStatusCode.InternalServerError);
+            response.Should().Be500InternalServerError();
             var responseContent = await response.Content.ReadAsAsync<CustomErrorResponse>();
             responseContent.Should().NotBeNull();
             responseContent.ErrorMessage.Should().Be("Custom exception message");
@@ -112,7 +111,7 @@ namespace CustomExceptionMiddleware.Tests
             var response = await _client.GetAsync(_url);
 
             // Assert
-            response.StatusCode.Should().Be(HttpStatusCode.OK);
+            response.Should().Be200Ok();
             var responseContent = await response.Content.ReadAsAsync<IEnumerable<Customer>>();
             responseContent.Should().NotBeNullOrEmpty();
         }
@@ -127,7 +126,7 @@ namespace CustomExceptionMiddleware.Tests
             var response = await _client.GetAsync(_url);
 
             // Assert
-            response.StatusCode.Should().Be(HttpStatusCode.OK);
+            response.Should().Be200Ok();
             var responseContent = await response.Content.ReadAsAsync<IEnumerable<Customer>>();
             responseContent.Should().NotBeNullOrEmpty();
         }
@@ -142,7 +141,7 @@ namespace CustomExceptionMiddleware.Tests
             var response = await _client.GetAsync(_url);
 
             // Assert
-            response.StatusCode.Should().Be(HttpStatusCode.OK);
+            response.Should().Be200Ok();
             var responseContent = await response.Content.ReadAsAsync<IEnumerable<Customer>>();
             responseContent.Should().NotBeNullOrEmpty();
         }
@@ -157,10 +156,9 @@ namespace CustomExceptionMiddleware.Tests
             var response = await _client.GetAsync(_url);
 
             // Assert
-            response.StatusCode.Should().Be(HttpStatusCode.OK);
+            response.Should().Be200Ok();
             var responseContent = await response.Content.ReadAsAsync<IEnumerable<Customer>>();
             responseContent.Should().NotBeNullOrEmpty();
         }
     }
 }
-
