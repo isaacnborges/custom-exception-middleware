@@ -38,19 +38,11 @@ namespace CustomExceptionMiddleware.WebAppTest.Custom
 
             app.UseCustomExceptionMiddleware(new CustomExceptionOptions
             {
-                CustomErrorModel = new
-                {
-                    CustomValue = "ValueObject",
-                    Success = false
-                }
+                ViewStackTrace = true
             });
             app.UseCustomExceptionMiddleware(options =>
             {
-                options.CustomErrorModel = new
-                {
-                    CustomValue = "ValueAction",
-                    Success = false
-                };
+                options.ViewStackTrace = true;
             });
 
             app.UseRouting();

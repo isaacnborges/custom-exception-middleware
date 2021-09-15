@@ -2,12 +2,17 @@
 {
     public class CustomErrorResponse
     {
-        public CustomError Error { get; set; }
         public string Type { get; set; }
+        public CustomError Error { get; set; }
     }
 
     public class CustomError
     {
         public string Msg { get; set; }
+
+        public CustomError(string msg)
+        {
+            Msg = msg;
+        }
     }
 }

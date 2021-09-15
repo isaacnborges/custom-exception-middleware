@@ -44,29 +44,13 @@ Example output
 
 ### Custom use
 1. Create object options <br/>
-It's possible create a `CustomExceptionOptions` to customize the return middleware object, to create this options add this:
+It's possible create a `CustomExceptionOptions` to customize the return middleware object, to view the `StackTrace` like this:
 
     ```c#
     app.UseCustomExceptionMiddleware(new CustomExceptionOptions
     {
-        CustomErrorModel = new
-        {
-            CustomValue = "ValueObject",
-            Success = false
-        }
+        ViewStackTrace = true
     });
-    ```
-
-    Example output
-    ```json
-    {
-        "customValue": "ValueObject",
-        "success": false,
-        "type": "VALIDATION_ERRORS",
-        "error": {
-            "msg": "Custom domain exception message"
-        }
-    }
     ```
 
 2. Use an action options <br/>
@@ -74,25 +58,22 @@ Other options to customize the return object is using an action to create a `Cus
     ```c#
     app.UseCustomExceptionMiddleware(options =>
     {
-        options.CustomErrorModel = new
-        {
-            CustomValue = "ValueAction",
-            Success = false
-        };
+        options.ViewStackTrace = true;
     });
     ```
 
-    Example output
-    ```json
-    {
-        "customValue": "ValueAction",
-        "success": false,
-        "type": "VALIDATION_ERRORS",
-        "error": {
-            "msg": "Custom domain exception message"
-        }
-    }
-    ```
+In both cases the output will include de stack trace in `detail` object property:    
+
+Example output
+```json
+{
+    "error": {
+        "msg": "Custom domain exception message",
+        "detail": "at CustomExceptionMiddleware.WebAppTest.Custom.ProductService.GetDomainException(Boolean returnProducts) in C:\\isaacnborges\\projects\\custom-exception-middleware\\tests\\CustomExceptionMiddleware.WebAppTest.Custom\\ProductService.cs:line 18\r\n   at CustomExceptionMiddleware.WebAppTest.Custom.Controllers.ProductController.GetDomain(Boolean returnProduct) in C:\\isaacnborges\\projects\\custom-exception-middleware\\tests\\CustomExceptionMiddleware.WebAppTest.Custom\\Controllers\\ProductController.cs:line 26"
+    },
+    "type": "VALIDATION_ERRORS"
+}
+```
 
 ### Configure Exceptions
 This middleware use some custom exceptions to catch and personalize the response status code.
@@ -115,7 +96,7 @@ public class InvalidStateException : DomainException
     public InvalidStateException(string message) : base(message)
     { }
 }
-```    
+```
 
 #### Throw exceptions
 ```c#
@@ -123,4 +104,15 @@ throw new InvalidStateException("Custom domain exception message");
 throw new CannotAccessException("Custom cannot access exception message");
 throw new NotFoundException("Custom not found exception message");
 throw new Exception("Custom exception message");
+```
+
+## Log exceptions
+This middleware will `Log` some informations that can be used for monitoring and observability, like `TraceIdentifier`, request and exception informations like message type and stack trace:
+
+Example log:
+
+```
+Occurred an exception - TraceId: 0HMBO9LGH0JHD:00000002 - ExceptionType: InvalidStateException - Message: Custom domain exception message
+CustomExceptionMiddleware.WebAppTest.InvalidStateException: Custom domain exception message
+at CustomExceptionMiddleware.WebAppTest.Custom.ProductService.GetDomainException(Boolean returnProducts) in C:\\isaacnborges\\projects\\custom-exception-middleware\\tests\\CustomExceptionMiddleware.WebAppTest.Custom\\ProductService.cs:line 18\r\n   at CustomExceptionMiddleware.WebAppTest.Custom.Controllers.ProductController.GetDomain(Boolean returnProduct) in C:\\isaacnborges\\projects\\custom-exception-middleware\\tests\\CustomExceptionMiddleware.WebAppTest.Custom\\Controllers\\ProductController.cs:line 26
 ```

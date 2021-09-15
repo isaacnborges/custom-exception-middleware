@@ -2,6 +2,6 @@
 {
     public class CustomExceptionOptions
     {
-        public object CustomErrorModel { get; set; }
+        public bool ViewStackTrace { get; set; }
     }
 }

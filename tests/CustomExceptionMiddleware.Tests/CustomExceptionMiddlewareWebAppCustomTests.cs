@@ -49,11 +49,10 @@ namespace CustomExceptionMiddleware.Tests
 
             // Assert
             response.Should().Be400BadRequest();
-            var responseContent = await response.Content.ReadAsAsync<CustomErrorModel>();
-            responseContent.Success.Should().BeFalse();
-            responseContent.CustomValue.Should().Be("ValueAction");
-            responseContent.Error.Msg.Should().Be("Custom domain exception message");
+            var responseContent = await response.Content.ReadAsAsync<CustomErrorDetailResponse>();
             responseContent.Type.Should().Be(ValidationErrors);
+            responseContent.Error.Detail.Should().NotBeNullOrEmpty();
+            responseContent.Error.Msg.Should().Be("Custom domain exception message");
         }
 
         [Fact(DisplayName = "Should return Ok and get customers from domain url")]
@@ -67,7 +66,7 @@ namespace CustomExceptionMiddleware.Tests
 
             // Assert
             response.Should().Be200Ok();
-            var responseContent = await response.Content.ReadAsAsync<IEnumerable<CustomErrorModel>>();
+            var responseContent = await response.Content.ReadAsAsync<IEnumerable<CustomErrorDetailResponse>>();
             responseContent.Should().NotBeNullOrEmpty();
         }
     }

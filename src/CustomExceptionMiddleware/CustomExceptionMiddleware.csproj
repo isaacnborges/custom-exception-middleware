@@ -4,7 +4,7 @@
     <TargetFrameworks>netstandard2.0; net5.0</TargetFrameworks>
     <LangVersion>9.0</LangVersion>
     <ProjectGuid>{90802F9F-8E08-45A0-A14C-7C006E9C2C62}</ProjectGuid>
-    <Version>1.0.3</Version>
+    <Version>1.0.4</Version>
     <Authors>Isaac Nunes Borges</Authors>
     <Company>isaacnborges</Company>
     <PackageId>CustomExceptionMiddleware</PackageId>

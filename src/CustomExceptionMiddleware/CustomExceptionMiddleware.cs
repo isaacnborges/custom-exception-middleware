@@ -15,6 +15,13 @@ namespace CustomExceptionMiddleware
         private readonly RequestDelegate _next;
         private readonly ILogger<CustomExceptionMiddleware> _logger;
         private readonly CustomExceptionOptions _options;
+
+        private readonly JsonSerializerOptions _serializeOptions = new()
+        {
+            PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+            WriteIndented = true
+        };
+
         private const string UnexpectedError = "UNEXPECTED_ERROR";
         private const string ValidationErrors = "VALIDATION_ERRORS";
 
@@ -75,7 +82,7 @@ namespace CustomExceptionMiddleware
         private async Task HandleException(HttpContext httpContext, Exception exception, HttpStatusCode statusCode)
         {
             ConfigureResponseContext(httpContext, statusCode);
-            LogException(httpContext, exception.GetType().Name, exception.Message);
+            LogException(httpContext, exception);
 
             var result = GetResultException(exception);
 
@@ -84,42 +91,25 @@ namespace CustomExceptionMiddleware
 
         private string GetResultException(Exception exception)
         {
-            var serializeOptions = new JsonSerializerOptions
-            {
-                PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-                WriteIndented = true
-            };
+            var customErrorResponse = BuildCustomErrorResponse(exception);
+            return JsonSerializer.Serialize(customErrorResponse, _serializeOptions);
+        }
 
-            if (_options.CustomErrorModel is null)
+        private object BuildCustomErrorResponse(Exception exception)
+        {
+            if (_options.ViewStackTrace)
             {
-                var customErrorResponse = BuildCustomErrorResponse(exception);
-                return JsonSerializer.Serialize(customErrorResponse, serializeOptions);
+                return new CustomErrorDetailResponse
+                {
+                    Type = exception.GetType().Name.Equals(nameof(Exception)) ? UnexpectedError : ValidationErrors,
+                    Error = new CustomErrorDetail(exception.Message, exception.StackTrace)
+                };
             }
 
-            var errorModel = BuildDynamicErrorModel(exception);
-            return JsonSerializer.Serialize(errorModel, serializeOptions);
-        }
-
-        private dynamic BuildDynamicErrorModel(Exception exception)
-        {
-            dynamic errorModel = _options.CustomErrorModel.ToExpandoObject();
-            errorModel.Type = exception.GetType().Name.Equals(nameof(Exception)) ? UnexpectedError : ValidationErrors;
-            errorModel.Error = new
-            {
-                Msg = exception.Message
-            };
-            return errorModel;
-        }
-
-        private static CustomErrorResponse BuildCustomErrorResponse(Exception exception)
-        {
             return new CustomErrorResponse
             {
                 Type = exception.GetType().Name.Equals(nameof(Exception)) ? UnexpectedError : ValidationErrors,
-                Error = new CustomError
-                {
-                    Msg = exception.Message
-                }
+                Error = new CustomError(exception.Message)
             };
         }
 
@@ -129,11 +119,9 @@ namespace CustomExceptionMiddleware
             httpContext.Response.StatusCode = statusCode.GetIntValue();
         }
 
-        private void LogException(HttpContext httpContext, string exceptionName, string message)
+        private void LogException(HttpContext httpContext, Exception exception)
         {
-            var request = httpContext.Request;
-            _logger.LogInformation($"Url exception: {request.Scheme}://{request.Host}{request.Path}{request.QueryString}");
-            _logger.LogError($"Occurred an exception - ExceptionType: {exceptionName} - Message: {message}");
+            _logger.LogError(exception, $"Occurred an exception - TraceId: {httpContext.TraceIdentifier} - ExceptionType: {exception.GetType().Name} - Message: {exception.Message}");
         }
     }
 }
