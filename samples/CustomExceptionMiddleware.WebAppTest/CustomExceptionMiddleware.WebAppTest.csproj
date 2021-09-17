@@ -10,7 +10,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\CustomExceptionMiddleware\CustomExceptionMiddleware.csproj" />
+    <ProjectReference Include="..\..\src\CustomExceptionMiddleware.csproj" />
   </ItemGroup>
 
 </Project>
