@@ -1,4 +1,4 @@
-name: workflow deploy-pack
+name: Build and publish
 
 on:
   push:
