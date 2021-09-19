@@ -69,5 +69,19 @@ namespace CustomExceptionMiddleware.Tests
             var responseContent = await response.Content.ReadAsAsync<IEnumerable<CustomErrorDetailResponse>>();
             responseContent.Should().NotBeNullOrEmpty();
         }
+
+
+        [Fact(DisplayName = "Should return OK and ignore exception")]
+        public async Task GetAsync_IgnoreException_ShouldReturnOK()
+        {
+            // Arrange
+            _url = "values";
+
+            // Act
+            var response = await _client.GetAsync(_url);
+
+            // Assert
+            response.Should().Be200Ok();
+        }
     }
 }

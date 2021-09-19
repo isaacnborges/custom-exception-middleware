@@ -1,5 +1,6 @@
 ﻿using CustomExceptionMiddleware.CustomExceptions;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System;
@@ -12,18 +13,16 @@ namespace CustomExceptionMiddleware
 {
     public class CustomExceptionMiddleware
     {
+        private const string UnexpectedError = "UNEXPECTED_ERROR";
+        private const string ValidationErrors = "VALIDATION_ERRORS";
         private readonly RequestDelegate _next;
         private readonly ILogger<CustomExceptionMiddleware> _logger;
         private readonly CustomExceptionOptions _options;
-
         private readonly JsonSerializerOptions _serializeOptions = new()
         {
             PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
             WriteIndented = true
         };
-
-        private const string UnexpectedError = "UNEXPECTED_ERROR";
-        private const string ValidationErrors = "VALIDATION_ERRORS";
 
         public CustomExceptionMiddleware(
             RequestDelegate next,
@@ -81,12 +80,25 @@ namespace CustomExceptionMiddleware
 
         private async Task HandleException(HttpContext httpContext, Exception exception, HttpStatusCode statusCode)
         {
-            ConfigureResponseContext(httpContext, statusCode);
+            if (HasIgnoreExceptionAttribute(httpContext))
+            {
+                LogWarningException(exception);
+                return;
+            }
+
             LogException(httpContext, exception);
+            ConfigureResponseContext(httpContext, statusCode);
 
             var result = GetResultException(exception);
 
             await httpContext.Response.WriteAsync(result, Encoding.UTF8);
+        }
+
+        private static bool HasIgnoreExceptionAttribute(HttpContext httpContext)
+        {
+            var endpoint = httpContext.Features.Get<IEndpointFeature>()?.Endpoint;
+            var attribute = endpoint?.Metadata.GetMetadata<IgnoreCustomExceptionAttribute>();
+            return attribute != null;
         }
 
         private string GetResultException(Exception exception)
@@ -122,6 +134,11 @@ namespace CustomExceptionMiddleware
         private void LogException(HttpContext httpContext, Exception exception)
         {
             _logger.LogError(exception, $"Occurred an exception - TraceId: {httpContext.TraceIdentifier} - ExceptionType: {exception.GetType().Name} - Message: {exception.Message}");
+        }
+
+        private void LogWarningException(Exception exception)
+        {
+            _logger.LogWarning($"Occurred an exception - ExceptionType: {exception.GetType().Name} - Message: {exception.Message}");
         }
     }
 }

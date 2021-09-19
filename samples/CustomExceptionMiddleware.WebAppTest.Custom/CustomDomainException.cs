@@ -5,12 +5,12 @@ using System.Runtime.Serialization;
 namespace CustomExceptionMiddleware.WebAppTest.Custom
 {
     [Serializable]
-    public class ProductCustomException : DomainException
+    public class CustomDomainException : DomainException
     {
-        public ProductCustomException(string message) : base(message)
+        public CustomDomainException(string message) : base(message)
         { }
 
-        protected ProductCustomException(SerializationInfo info, StreamingContext context)
+        protected CustomDomainException(SerializationInfo info, StreamingContext context)
             : base(info, context)
         { }
     }

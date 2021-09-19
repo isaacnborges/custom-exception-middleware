@@ -28,4 +28,3 @@ namespace CustomExceptionMiddleware.WebAppTest.Custom.Controllers
         }
     }
 }
-
