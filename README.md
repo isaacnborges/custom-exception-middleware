@@ -24,6 +24,8 @@ dotnet add package CustomExceptionMiddleware
 
 ### Compilation requirements: [.NET 5](https://dotnet.microsoft.com/download/dotnet/5.0)
 
+<br/>
+
 ## How to use
 
 It's very simple to use, go to `Startup.cs` on `Configure()` method and add this code:
@@ -106,7 +108,10 @@ throw new NotFoundException("Custom not found exception message");
 throw new Exception("Custom exception message");
 ```
 
-## Log exceptions
+### Sample example
+Open `docs` folder, inside has a [postman](https://www.postman.com/) collection that could be used for test the sample projects with some requests and validate the middleware in use.
+
+## Logging
 This middleware will `Log` some informations that can be used for monitoring and observability, like `TraceIdentifier`, request and exception informations like message type and stack trace:
 
 Example log:
@@ -142,7 +147,7 @@ Using the `IgnoreCustomExceptionAttribute` attribute the middleware will ignore 
     {
         throw new CustomDomainException("Some error ignore method");
     }
-    ```  
+    ```
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
