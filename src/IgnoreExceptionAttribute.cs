@@ -2,6 +2,7 @@
 
 namespace CustomExceptionMiddleware
 {
-    public class IgnoreCustomExceptionAttribute : Attribute
+    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
+    public sealed class IgnoreCustomExceptionAttribute : Attribute
     { }
 }

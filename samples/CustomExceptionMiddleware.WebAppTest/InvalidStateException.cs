@@ -7,11 +7,16 @@ namespace CustomExceptionMiddleware.WebAppTest
     [Serializable]
     public class InvalidStateException : DomainException
     {
+        public InvalidStateException()
+        { }
+
         public InvalidStateException(string message) : base(message)
         { }
 
-        protected InvalidStateException(SerializationInfo info, StreamingContext context)
-            : base(info, context)
+        public InvalidStateException(string message, Exception innerException) : base(message, innerException)
+        { }
+
+        protected InvalidStateException(SerializationInfo info, StreamingContext context) : base(info, context)
         { }
     }
 }
