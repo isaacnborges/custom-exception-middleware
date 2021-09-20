@@ -10,7 +10,7 @@ namespace CustomExceptionMiddleware.WebAppTest.Custom.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            throw new CustomDomainException("Some message");
+            throw new CustomDomainException("Some error ignore class");
         }
     }
 }

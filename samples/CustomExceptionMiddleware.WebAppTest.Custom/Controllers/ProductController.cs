@@ -26,5 +26,12 @@ namespace CustomExceptionMiddleware.WebAppTest.Custom.Controllers
             var result = _productService.GetDomainException(returnProduct);
             return Ok(result);
         }
+
+        [IgnoreCustomException]
+        [HttpGet("ignore")]
+        public IActionResult GetIgnore()
+        {
+            throw new CustomDomainException("Some error ignore method");
+        }
     }
 }

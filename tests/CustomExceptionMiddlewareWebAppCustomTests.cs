@@ -70,9 +70,24 @@ namespace CustomExceptionMiddleware.Tests
             responseContent.Should().NotBeNullOrEmpty();
         }
 
+        [Fact(DisplayName = "Should return internal server error and ignore exception middleware with method attribute")]
+        public async Task GetAsync_IgnoreExceptionMethodAttribute_ShouldReturnInternalServerError()
+        {
+            // Arrange
+            _url += $"/ignore";
 
-        [Fact(DisplayName = "Should return OK and ignore exception")]
-        public async Task GetAsync_IgnoreException_ShouldReturnOK()
+            // Act
+            var response = await _client.GetAsync(_url);
+
+            // Assert
+            response.Should().Be500InternalServerError();
+            var responseContent = await response.Content.ReadAsStringAsync();
+            responseContent.Should().Contain("Some error ignore method");
+        }
+
+
+        [Fact(DisplayName = "Should return internal server error and ignore exception middleware with class attribute")]
+        public async Task GetAsync_IgnoreExceptionClassAttribute_ShouldReturnInternalServerError()
         {
             // Arrange
             _url = "values";
@@ -81,7 +96,9 @@ namespace CustomExceptionMiddleware.Tests
             var response = await _client.GetAsync(_url);
 
             // Assert
-            response.Should().Be200Ok();
+            response.Should().Be500InternalServerError();
+            var responseContent = await response.Content.ReadAsStringAsync();
+            responseContent.Should().Contain("Some error ignore class");
         }
     }
 }

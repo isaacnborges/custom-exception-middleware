@@ -120,20 +120,29 @@ at CustomExceptionMiddleware.WebAppTest.Custom.ProductService.GetDomainException
 ## Using custom attribute
 In some scenarios the project needs other response object, integrations with 3rd party systems for example, this middleware contains an [attribute](https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/concepts/attributes/) that could be ignore, it's possible use in class or methods
 
-Using the `IgnoreCustomExceptionAttribute` attribute the middleware will ignore your own flow and simple log the exception information. To use it simply, decorate the class or method with the name.
+Using the `IgnoreCustomExceptionAttribute` attribute the middleware will ignore your own flow. To use it simply, decorate the class or method with the name.
 
-Example use:
-```c#
-[IgnoreCustomException]
-public class ValuesController : ControllerBase
-{
-    [HttpGet]
-    public IActionResult Get()
+ - Class example
+    ```c#
+    [IgnoreCustomException]
+    public class ValuesController : ControllerBase
     {
-        return Ok();
+        [HttpGet]
+        public IActionResult Get()
+        {
+            throw new CustomDomainException("Some error ignore class");
+        }
+    ```
+
+ - Method example
+    ```c#
+    [IgnoreCustomException]
+    [HttpGet("ignore")]
+    public IActionResult GetIgnore()
+    {
+        throw new CustomDomainException("Some error ignore method");
     }
-}
-```
+    ```  
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.

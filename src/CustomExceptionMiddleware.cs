@@ -40,19 +40,19 @@ namespace CustomExceptionMiddleware
             {
                 await _next(httpContext);
             }
-            catch (DomainException ex)
+            catch (DomainException ex) when (NotHasIgnoreExceptionAttribute(httpContext))
             {
                 await HandleDomainException(httpContext, ex);
             }
-            catch (CannotAccessException ex)
+            catch (CannotAccessException ex) when (NotHasIgnoreExceptionAttribute(httpContext))
             {
                 await HandleCannotAccessException(httpContext, ex);
             }
-            catch (NotFoundException ex)
+            catch (NotFoundException ex) when (NotHasIgnoreExceptionAttribute(httpContext))
             {
                 await HandleNotFoundException(httpContext, ex);
             }
-            catch (Exception ex)
+            catch (Exception ex) when (NotHasIgnoreExceptionAttribute(httpContext))
             {
                 await HandleInternalServerErrorException(httpContext, ex);
             }
@@ -80,12 +80,6 @@ namespace CustomExceptionMiddleware
 
         private async Task HandleException(HttpContext httpContext, Exception exception, HttpStatusCode statusCode)
         {
-            if (HasIgnoreExceptionAttribute(httpContext))
-            {
-                LogDebugException(exception);
-                return;
-            }
-
             LogException(httpContext, exception);
             ConfigureResponseContext(httpContext, statusCode);
 
@@ -94,11 +88,11 @@ namespace CustomExceptionMiddleware
             await httpContext.Response.WriteAsync(result, Encoding.UTF8);
         }
 
-        private static bool HasIgnoreExceptionAttribute(HttpContext httpContext)
+        private static bool NotHasIgnoreExceptionAttribute(HttpContext httpContext)
         {
             var endpoint = httpContext.Features.Get<IEndpointFeature>()?.Endpoint;
             var attribute = endpoint?.Metadata.GetMetadata<IgnoreCustomExceptionAttribute>();
-            return attribute != null;
+            return attribute == null;
         }
 
         private string GetResultException(Exception exception)
@@ -134,11 +128,6 @@ namespace CustomExceptionMiddleware
         private void LogException(HttpContext httpContext, Exception exception)
         {
             _logger.LogError(exception, $"Occurred an exception - TraceId: {httpContext.TraceIdentifier} - ExceptionType: {exception.GetType().Name} - Message: {exception.Message}");
-        }
-
-        private void LogDebugException(Exception exception)
-        {
-            _logger.LogDebug($"Occurred an exception - ExceptionType: {exception.GetType().Name} - Message: {exception.Message}");
         }
     }
 }
