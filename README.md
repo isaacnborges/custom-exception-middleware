@@ -116,3 +116,21 @@ Occurred an exception - TraceId: 0HMBO9LGH0JHD:00000002 - ExceptionType: Invalid
 CustomExceptionMiddleware.WebAppTest.InvalidStateException: Custom domain exception message
 at CustomExceptionMiddleware.WebAppTest.Custom.ProductService.GetDomainException(Boolean returnProducts) in C:\\isaacnborges\\projects\\custom-exception-middleware\\tests\\CustomExceptionMiddleware.WebAppTest.Custom\\ProductService.cs:line 18\r\n   at CustomExceptionMiddleware.WebAppTest.Custom.Controllers.ProductController.GetDomain(Boolean returnProduct) in C:\\isaacnborges\\projects\\custom-exception-middleware\\tests\\CustomExceptionMiddleware.WebAppTest.Custom\\Controllers\\ProductController.cs:line 26
 ```
+
+## Using custom attribute
+In some scenarios the project needs other response object, integrations with 3rd party systems for example, this middleware contains an [attribute](https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/concepts/attributes/) that could be ignore, it's possible use in class or methods
+
+Using the `IgnoreCustomExceptionAttribute` attribute the middleware will ignore your own flow and simple log the exception information. To use it simply, decorate the class or method with the name.
+
+Example use:
+```c#
+[IgnoreCustomException]
+public class ValuesController : ControllerBase
+{
+    [HttpGet]
+    public IActionResult Get()
+    {
+        return Ok();
+    }
+}
+```

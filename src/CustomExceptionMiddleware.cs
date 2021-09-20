@@ -82,7 +82,7 @@ namespace CustomExceptionMiddleware
         {
             if (HasIgnoreExceptionAttribute(httpContext))
             {
-                LogWarningException(exception);
+                LogDebugException(exception);
                 return;
             }
 
@@ -136,9 +136,9 @@ namespace CustomExceptionMiddleware
             _logger.LogError(exception, $"Occurred an exception - TraceId: {httpContext.TraceIdentifier} - ExceptionType: {exception.GetType().Name} - Message: {exception.Message}");
         }
 
-        private void LogWarningException(Exception exception)
+        private void LogDebugException(Exception exception)
         {
-            _logger.LogWarning($"Occurred an exception - ExceptionType: {exception.GetType().Name} - Message: {exception.Message}");
+            _logger.LogDebug($"Occurred an exception - ExceptionType: {exception.GetType().Name} - Message: {exception.Message}");
         }
     }
 }
