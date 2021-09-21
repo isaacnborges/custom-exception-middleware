@@ -13,8 +13,8 @@ namespace CustomExceptionMiddleware
 {
     public class CustomExceptionMiddleware
     {
-        private const string UnexpectedError = "UNEXPECTED_ERROR";
-        private const string ValidationErrors = "VALIDATION_ERRORS";
+        public const string UnexpectedError = "UNEXPECTED_ERROR";
+        public const string ValidationErrors = "VALIDATION_ERRORS";
         private readonly RequestDelegate _next;
         private readonly ILogger<CustomExceptionMiddleware> _logger;
         private readonly CustomExceptionOptions _options;
@@ -40,19 +40,19 @@ namespace CustomExceptionMiddleware
             {
                 await _next(httpContext);
             }
-            catch (DomainException ex) when (NotHasIgnoreExceptionAttribute(httpContext))
+            catch (DomainException ex) when (NotContainExceptionAttribute(httpContext))
             {
                 await HandleDomainException(httpContext, ex);
             }
-            catch (CannotAccessException ex) when (NotHasIgnoreExceptionAttribute(httpContext))
+            catch (CannotAccessException ex) when (NotContainExceptionAttribute(httpContext))
             {
                 await HandleCannotAccessException(httpContext, ex);
             }
-            catch (NotFoundException ex) when (NotHasIgnoreExceptionAttribute(httpContext))
+            catch (NotFoundException ex) when (NotContainExceptionAttribute(httpContext))
             {
                 await HandleNotFoundException(httpContext, ex);
             }
-            catch (Exception ex) when (NotHasIgnoreExceptionAttribute(httpContext))
+            catch (Exception ex) when (NotContainExceptionAttribute(httpContext))
             {
                 await HandleInternalServerErrorException(httpContext, ex);
             }
@@ -88,7 +88,7 @@ namespace CustomExceptionMiddleware
             await httpContext.Response.WriteAsync(result, Encoding.UTF8);
         }
 
-        private static bool NotHasIgnoreExceptionAttribute(HttpContext httpContext)
+        private static bool NotContainExceptionAttribute(HttpContext httpContext)
         {
             var endpoint = httpContext.Features.Get<IEndpointFeature>()?.Endpoint;
             var attribute = endpoint?.Metadata.GetMetadata<IgnoreCustomExceptionAttribute>();
