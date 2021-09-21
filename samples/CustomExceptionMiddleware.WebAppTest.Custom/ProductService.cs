@@ -15,7 +15,7 @@ namespace CustomExceptionMiddleware.WebAppTest.Custom
             if (returnProducts)
                 return GetProducts();
 
-            throw new ProductCustomException("Custom domain exception message");
+            throw new CustomDomainException("Custom domain exception message");
         }
 
         private static IEnumerable<Product> GetProducts(int customersCount = 10)

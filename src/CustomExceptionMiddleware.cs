@@ -1,5 +1,6 @@
 ﻿using CustomExceptionMiddleware.CustomExceptions;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System;
@@ -12,18 +13,16 @@ namespace CustomExceptionMiddleware
 {
     public class CustomExceptionMiddleware
     {
+        public const string UnexpectedError = "UNEXPECTED_ERROR";
+        public const string ValidationErrors = "VALIDATION_ERRORS";
         private readonly RequestDelegate _next;
         private readonly ILogger<CustomExceptionMiddleware> _logger;
         private readonly CustomExceptionOptions _options;
-
         private readonly JsonSerializerOptions _serializeOptions = new()
         {
             PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
             WriteIndented = true
         };
-
-        private const string UnexpectedError = "UNEXPECTED_ERROR";
-        private const string ValidationErrors = "VALIDATION_ERRORS";
 
         public CustomExceptionMiddleware(
             RequestDelegate next,
@@ -41,19 +40,19 @@ namespace CustomExceptionMiddleware
             {
                 await _next(httpContext);
             }
-            catch (DomainException ex)
+            catch (DomainException ex) when (NotContainExceptionAttribute(httpContext))
             {
                 await HandleDomainException(httpContext, ex);
             }
-            catch (CannotAccessException ex)
+            catch (CannotAccessException ex) when (NotContainExceptionAttribute(httpContext))
             {
                 await HandleCannotAccessException(httpContext, ex);
             }
-            catch (NotFoundException ex)
+            catch (NotFoundException ex) when (NotContainExceptionAttribute(httpContext))
             {
                 await HandleNotFoundException(httpContext, ex);
             }
-            catch (Exception ex)
+            catch (Exception ex) when (NotContainExceptionAttribute(httpContext))
             {
                 await HandleInternalServerErrorException(httpContext, ex);
             }
@@ -81,12 +80,19 @@ namespace CustomExceptionMiddleware
 
         private async Task HandleException(HttpContext httpContext, Exception exception, HttpStatusCode statusCode)
         {
-            ConfigureResponseContext(httpContext, statusCode);
             LogException(httpContext, exception);
+            ConfigureResponseContext(httpContext, statusCode);
 
             var result = GetResultException(exception);
 
             await httpContext.Response.WriteAsync(result, Encoding.UTF8);
+        }
+
+        private static bool NotContainExceptionAttribute(HttpContext httpContext)
+        {
+            var endpoint = httpContext.Features.Get<IEndpointFeature>()?.Endpoint;
+            var attribute = endpoint?.Metadata.GetMetadata<IgnoreCustomExceptionAttribute>();
+            return attribute == null;
         }
 
         private string GetResultException(Exception exception)

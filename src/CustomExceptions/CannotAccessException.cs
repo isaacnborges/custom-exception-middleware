@@ -6,11 +6,16 @@ namespace CustomExceptionMiddleware.CustomExceptions
     [Serializable]
     public class CannotAccessException : Exception
     {
+        public CannotAccessException()
+        { }
+
         public CannotAccessException(string message) : base(message)
         { }
 
-        protected CannotAccessException(SerializationInfo info, StreamingContext context)
-            : base(info, context)
+        public CannotAccessException(string message, Exception innerException) : base(message, innerException)
+        { }
+
+        protected CannotAccessException(SerializationInfo info, StreamingContext context) : base(info, context)
         { }
     }
 }
