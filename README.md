@@ -24,8 +24,6 @@ dotnet add package CustomExceptionMiddleware
 
 ### Compilation requirements: [.NET 5](https://dotnet.microsoft.com/download/dotnet/5.0)
 
-<br/>
-
 ## How to use
 
 It's very simple to use, go to `Startup.cs` on `Configure()` method and add this code:

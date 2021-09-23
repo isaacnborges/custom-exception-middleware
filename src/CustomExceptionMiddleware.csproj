@@ -10,7 +10,10 @@
     <PackageId>CustomExceptionMiddleware</PackageId>
     <PackageProjectUrl>https://github.com/isaacnborges/custom-exception-middleware</PackageProjectUrl>
     <PackageIconUrl>https://raw.githubusercontent.com/isaacnborges/custom-exception-middleware/master/docs/icon.png</PackageIconUrl>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageTags>Middleware;Exception;CustomExceptions;Message;Error;ErrorHandling;ErrorMessages</PackageTags>
+    <RepositoryUrl>https://github.com/isaacnborges/custom-exception-middleware</RepositoryUrl>
+    <RepositoryType>Public</RepositoryType>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <Description>
       Middleware to catch custom exceptions
