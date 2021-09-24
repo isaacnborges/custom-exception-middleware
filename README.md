@@ -1,4 +1,4 @@
-# Custom Exception Middleware <img src="https://raw.githubusercontent.com/isaacnborges/custom-exception-middleware/master/docs/icon.png" align='right' />
+# Custom Exception Middleware <img src="icon.png" align='right' />
 
 [![Github actions status](https://github.com/isaacnborges/custom-exception-middleware/actions/workflows/build-publish.yml/badge.svg)](https://github.com/isaacnborges/custom-exception-middleware/actions/workflows/build-publish.yml)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=isaacnborges_custom-exception-middleware&metric=alert_status)](https://sonarcloud.io/dashboard?id=isaacnborges_custom-exception-middleware)

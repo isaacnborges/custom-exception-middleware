@@ -2,16 +2,16 @@
 
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0; net5.0</TargetFrameworks>
-    <LangVersion>9.0</LangVersion>
-    <ProjectGuid>{90802F9F-8E08-45A0-A14C-7C006E9C2C62}</ProjectGuid>
     <Version>1.1.0</Version>
     <Authors>Isaac Nunes Borges</Authors>
     <Company>isaacnborges</Company>
+    <LangVersion>9.0</LangVersion>
     <PackageId>CustomExceptionMiddleware</PackageId>
+    <PackageIcon>icon.png</PackageIcon>
     <PackageProjectUrl>https://github.com/isaacnborges/custom-exception-middleware</PackageProjectUrl>
-    <PackageIconUrl>https://raw.githubusercontent.com/isaacnborges/custom-exception-middleware/master/docs/icon.png</PackageIconUrl>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageTags>Middleware;Exception;CustomExceptions;Message;Error;ErrorHandling;ErrorMessages</PackageTags>
+    <ProjectGuid>{90802F9F-8E08-45A0-A14C-7C006E9C2C62}</ProjectGuid>
     <RepositoryUrl>https://github.com/isaacnborges/custom-exception-middleware</RepositoryUrl>
     <RepositoryType>Public</RepositoryType>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
@@ -27,6 +27,11 @@
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.Options" Version="2.2.0" />
     <PackageReference Include="System.Text.Json" Version="5.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\icon.png" Pack="true" PackagePath=""/>
+    <None Include="..\README.md" Pack="true" PackagePath="\"/>
   </ItemGroup>
 
 </Project>
