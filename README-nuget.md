@@ -1,4 +1,4 @@
-# Custom Exception Middleware <img src="icon.png" align='right' />
+# Custom Exception Middleware
 
 [![Github actions status](https://github.com/isaacnborges/custom-exception-middleware/actions/workflows/build-publish.yml/badge.svg)](https://github.com/isaacnborges/custom-exception-middleware/actions/workflows/build-publish.yml)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=isaacnborges_custom-exception-middleware&metric=alert_status)](https://sonarcloud.io/dashboard?id=isaacnborges_custom-exception-middleware)
@@ -80,12 +80,14 @@ This middleware use some custom exceptions to catch and personalize the response
 
 The custom middleware supports the following **Exceptions**:
 
-| Exception             | Status code description | Status code |
-|-----------------------|-------------------------|:-----------:|
-| DomainException       | BadRequest              | 400         |
-| CannotAccessException | Forbidden               | 403         |
-| NotFoundException     | NotFound                | 404         |
-| Exception             | InternalServerError     | 500         |
+```
+Exception              Status code description  Status code
+---------------------  -----------------------  -----------
+DomainException        BadRequest                  400        
+CannotAccessException  Forbidden                   403        
+NotFoundException      NotFound                    404        
+Exception              InternalServerError         500        
+```
 
 `DomainException` is an abstract exception, so to use it's necessary create other exception and inherit. The others exceptions only throw an exception
 

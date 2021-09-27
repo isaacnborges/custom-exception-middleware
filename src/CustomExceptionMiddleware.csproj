@@ -2,21 +2,22 @@
 
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0; net5.0</TargetFrameworks>
-    <Version>1.1.0</Version>
+    <Version>1.1.1</Version>
     <Authors>Isaac Nunes Borges</Authors>
     <Company>isaacnborges</Company>
     <LangVersion>9.0</LangVersion>
     <PackageId>CustomExceptionMiddleware</PackageId>
     <PackageIcon>icon.png</PackageIcon>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <PackageProjectUrl>https://github.com/isaacnborges/custom-exception-middleware</PackageProjectUrl>
-    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageReadmeFile>README-nuget.md</PackageReadmeFile>
     <PackageTags>Middleware;Exception;CustomExceptions;Message;Error;ErrorHandling;ErrorMessages</PackageTags>
     <ProjectGuid>{90802F9F-8E08-45A0-A14C-7C006E9C2C62}</ProjectGuid>
     <RepositoryUrl>https://github.com/isaacnborges/custom-exception-middleware</RepositoryUrl>
     <RepositoryType>Public</RepositoryType>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <Description>
-      Middleware to catch custom exceptions
+      Middleware to catch custom or accidental exceptions
     </Description>
   </PropertyGroup>
 
@@ -31,7 +32,8 @@
 
   <ItemGroup>
     <None Include="..\icon.png" Pack="true" PackagePath=""/>
-    <None Include="..\README.md" Pack="true" PackagePath="\"/>
+    <None Include="..\README-nuget.md" Pack="true" PackagePath="\"/>
+    <None Include="..\LICENSE" Pack="true" PackagePath=""/>
   </ItemGroup>
 
 </Project>
