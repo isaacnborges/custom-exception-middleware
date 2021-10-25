@@ -11,6 +11,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CustomExceptionMiddleware",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CustomExceptionMiddleware.Tests", "tests\CustomExceptionMiddleware.Tests.csproj", "{1B7AB5C1-BA64-4FC5-90F6-22A7223337E9}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "samples", "samples", "{A9C92CF7-AFEE-4C37-91F4-6FE6DA714D10}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -36,6 +38,10 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{48587F17-C991-471E-BA1E-0001C81E57FF} = {A9C92CF7-AFEE-4C37-91F4-6FE6DA714D10}
+		{656FEEE7-5325-48B9-9FC1-B56816366C05} = {A9C92CF7-AFEE-4C37-91F4-6FE6DA714D10}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {955BC60C-26D7-4726-BAC5-0B90F771D94D}
