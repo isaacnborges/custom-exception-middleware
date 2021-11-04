@@ -12,6 +12,9 @@ using System.Threading.Tasks;
 
 namespace CustomExceptionMiddleware
 {
+    /// <summary>
+    /// A middleware to catch custom or accidental exceptions.
+    /// </summary>
     public class CustomExceptionMiddleware
     {
         public const string UnexpectedError = "UNEXPECTED_ERROR";
@@ -36,6 +39,10 @@ namespace CustomExceptionMiddleware
             _logger = logger;
         }
 
+        /// <summary>
+        /// Invokes the middleware.
+        /// </summary>
+        /// <param name="context">The <see cref="HttpContext"/>.</param>
         public async Task InvokeAsync(HttpContext httpContext)
         {
             try

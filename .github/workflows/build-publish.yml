@@ -84,9 +84,9 @@ jobs:
         dotnet-version: 5.0.x
 
     - name: Generate package
-      run: dotnet pack ./src/CustomExceptionMiddleware.csproj -c Release -o out
+      run: dotnet pack ./src/CustomExceptionMiddleware.csproj -c Release -o pkg
 
     - name: Push nuget
       run: |
-        cd out
+        cd pkg
         dotnet nuget push *.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source ${{ secrets.NUGET_SERVER }} --skip-duplicate
