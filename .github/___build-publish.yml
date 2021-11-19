@@ -3,8 +3,6 @@ name: Build and publish
 on:
   push:
     branches: [ main ]
-  pull_request:
-    branches: [ main ]
 
 jobs:
   build:
@@ -74,9 +72,8 @@ jobs:
           dotnet build --configuration Release
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
 
-  publish-nuget:
-    name: Publish Nuget
-    if: ${{ github.event_name != 'pull_request' }}
+  nuget-pack:
+    name: Nuget Package
     needs: sonar
     runs-on: ubuntu-latest
     steps:
