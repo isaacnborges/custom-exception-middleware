@@ -1,7 +1,9 @@
-name: Build and publish
+name: dotnet-workflow
 
 on:
   push:
+    branches: [ main ]
+  pull_request:
     branches: [ main ]
 
 jobs:
@@ -72,8 +74,9 @@ jobs:
           dotnet build --configuration Release
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
 
-  nuget-pack:
-    name: Nuget Package
+  publish-nuget:
+    name: Publish Nuget
+    if: ${{ github.event_name != 'pull_request' }}
     needs: sonar
     runs-on: ubuntu-latest
     steps:
