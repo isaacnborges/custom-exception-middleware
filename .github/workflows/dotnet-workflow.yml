@@ -13,10 +13,10 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - name: Setup .NET
+    - name: Setup .NET 5
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: 6.0.x
+        dotnet-version: 5.0.x
 
     - name: Restore dependencies
       run: dotnet restore
@@ -81,10 +81,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - name: Setup .NET 6
+    - name: Setup .NET 5
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: 6.0.x
+        dotnet-version: 5.0.x
 
     - name: Generate package
       run: dotnet pack ./src/CustomExceptionMiddleware.csproj -c Release -o pkg
