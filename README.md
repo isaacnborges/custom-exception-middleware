@@ -43,7 +43,7 @@ Example output
 ```
 
 ### Custom use
-1. Create object options <br/>
+- Create object options <br/>
 It's possible create a `CustomExceptionOptions` to customize the return middleware object, to view the `StackTrace` like this:
 
     ```c#
@@ -53,7 +53,7 @@ It's possible create a `CustomExceptionOptions` to customize the return middlewa
     });
     ```
 
-2. Use an action options <br/>
+- Use an action options <br/>
 Other options to customize the return object is using an action to create a `CustomErrorModel`
     ```c#
     app.UseCustomExceptionMiddleware(options =>
