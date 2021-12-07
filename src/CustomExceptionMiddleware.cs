@@ -116,16 +116,30 @@ namespace CustomExceptionMiddleware
             {
                 return new CustomErrorDetailResponse
                 {
-                    Type = exception.GetType().Name.Equals(nameof(Exception)) ? UnexpectedError : ValidationErrors,
+                    Type = GetExceptionType(exception),
                     Error = new CustomErrorDetail(exception.Message, exception.StackTrace)
                 };
             }
 
             return new CustomErrorResponse
             {
-                Type = exception.GetType().Name.Equals(nameof(Exception)) ? UnexpectedError : ValidationErrors,
+                Type = GetExceptionType(exception),
                 Error = new CustomError(exception.Message)
             };
+        }
+
+        private static string GetExceptionType(Exception exception)
+        {
+            var exceptionType = UnexpectedError;
+
+            if (exception.GetType().BaseType.Name.Equals(nameof(DomainException)) ||
+                exception.GetType().Name.Equals(nameof(CannotAccessException)) ||
+                exception.GetType().Name.Equals(nameof(NotFoundException)))
+            {
+                exceptionType = ValidationErrors;
+            }
+
+            return exceptionType;
         }
 
         private static void ConfigureResponseContext(HttpContext httpContext, HttpStatusCode statusCode)

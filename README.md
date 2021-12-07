@@ -68,11 +68,11 @@ In both cases the output will include de stack trace in `detail` object property
 Example output
 ```json
 {
+    "type": "VALIDATION_ERRORS",
     "error": {
         "msg": "Custom domain exception message",
         "detail": "at CustomExceptionMiddleware.WebAppTest.Custom.ProductService.GetDomainException(Boolean returnProducts) in C:\\isaacnborges\\projects\\custom-exception-middleware\\tests\\CustomExceptionMiddleware.WebAppTest.Custom\\ProductService.cs:line 18\r\n   at CustomExceptionMiddleware.WebAppTest.Custom.Controllers.ProductController.GetDomain(Boolean returnProduct) in C:\\isaacnborges\\projects\\custom-exception-middleware\\tests\\CustomExceptionMiddleware.WebAppTest.Custom\\Controllers\\ProductController.cs:line 26"
-    },
-    "type": "VALIDATION_ERRORS"
+    }
 }
 ```
 
@@ -94,8 +94,14 @@ The custom middleware supports the following **Exceptions**:
 ```c#
 public class InvalidStateException : DomainException
 {
-    public InvalidStateException(string message) : base(message)
-    { }
+        public InvalidStateException()
+        { }
+
+        public InvalidStateException(string message) : base(message)
+        { }
+
+        public InvalidStateException(string message, Exception innerException) : base(message, innerException)
+        { }
 }
 ```
 
