@@ -114,8 +114,24 @@ throw new NotFoundException("Custom not found exception message");
 throw new Exception("Custom exception message");
 ```
 
-### Sample example
-Open `docs` folder, inside has a [postman](https://www.postman.com/) collection that could be used for test the sample projects with some requests and validate the middleware in use.
+### Samples
+Inside the `samples` folder has two projects that could be used for test the and validate the middleware.
+
+#### Run the sample projects
+- WebAppTest
+    ```
+    dotnet run --project .\samples\CustomExceptionMiddleware.WebAppTest\
+    ```
+- WebAppTest.Custom
+    ```
+    dotnet run --project .\samples\CustomExceptionMiddleware.WebAppTest.Custom\
+    ```
+#### Samples documentation
+- Swagger
+    - [WebAppTest](http://localhost:5000/swagger/index.html)
+    - [WebAppTest.Custom](http://localhost:5001/swagger/index.html)
+- Postman
+    - Open `docs` folder, inside has a [postman](https://www.postman.com/) collection that could be used for test.
 
 ## Logging
 This middleware will `Log` some informations that can be used for monitoring and observability, like `TraceIdentifier`, request and exception informations like message type and stack trace:
