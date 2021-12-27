@@ -4,7 +4,7 @@ using System.Runtime.Serialization;
 namespace CustomExceptionMiddleware.CustomExceptions
 {
     [Serializable]
-    public class NotFoundException : Exception
+    public class NotFoundException : CustomException
     {
         public NotFoundException()
         { }
@@ -17,5 +17,20 @@ namespace CustomExceptionMiddleware.CustomExceptions
 
         protected NotFoundException(SerializationInfo info, StreamingContext context) : base(info, context)
         { }
+
+        public NotFoundException(string message, string exceptionType) : base(message)
+        {
+            ExceptionType = exceptionType;
+        }
+
+        public NotFoundException(string message, string exceptionType, Exception innerException) : base(message, innerException)
+        {
+            ExceptionType = exceptionType;
+        }
+
+        protected NotFoundException(SerializationInfo info, string exceptionType, StreamingContext context) : base(info, context)
+        {
+            ExceptionType = exceptionType;
+        }
     }
 }

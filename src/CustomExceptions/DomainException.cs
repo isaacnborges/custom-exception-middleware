@@ -4,7 +4,7 @@ using System.Runtime.Serialization;
 namespace CustomExceptionMiddleware.CustomExceptions
 {
     [Serializable]
-    public abstract class DomainException : Exception
+    public abstract class DomainException : CustomException
     {
         protected DomainException()
         { }
@@ -17,5 +17,20 @@ namespace CustomExceptionMiddleware.CustomExceptions
 
         protected DomainException(SerializationInfo info, StreamingContext context) : base(info, context)
         { }
+
+        protected DomainException(string message, string exceptionType) : base(message)
+        {
+            ExceptionType = exceptionType;
+        }
+
+        protected DomainException(string message, string exceptionType, Exception innerException) : base(message, innerException)
+        {
+            ExceptionType = exceptionType;
+        }
+
+        protected DomainException(SerializationInfo info, string exceptionType, StreamingContext context) : base(info, context)
+        {
+            ExceptionType = exceptionType;
+        }
     }
 }

@@ -132,11 +132,9 @@ namespace CustomExceptionMiddleware
         {
             var exceptionType = UnexpectedError;
 
-            if (exception.GetType().BaseType.Name.Equals(nameof(DomainException)) ||
-                exception.GetType().Name.Equals(nameof(CannotAccessException)) ||
-                exception.GetType().Name.Equals(nameof(NotFoundException)))
+            if (exception is CustomException customException)
             {
-                exceptionType = ValidationErrors;
+                exceptionType = string.IsNullOrEmpty(customException.ExceptionType) ? ValidationErrors : customException.ExceptionType;
             }
 
             return exceptionType;
