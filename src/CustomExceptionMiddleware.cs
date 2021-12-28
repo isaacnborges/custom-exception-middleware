@@ -1,4 +1,6 @@
 ﻿using CustomExceptionMiddleware.CustomExceptions;
+using CustomExceptionMiddleware.Extensions;
+using CustomExceptionMiddleware.Responses;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.Extensions.Logging;
@@ -114,18 +116,10 @@ namespace CustomExceptionMiddleware
         {
             if (_options.ViewStackTrace)
             {
-                return new CustomErrorDetailResponse
-                {
-                    Type = GetExceptionType(exception),
-                    Error = new CustomErrorDetail(exception.Message, exception.StackTrace)
-                };
+                return new CustomErrorDetailResponse(GetExceptionType(exception), new CustomErrorDetail(exception.Message, exception.StackTrace));
             }
 
-            return new CustomErrorResponse
-            {
-                Type = GetExceptionType(exception),
-                Error = new CustomError(exception.Message)
-            };
+            return new CustomErrorResponse(GetExceptionType(exception), new CustomError(exception.Message));
         }
 
         private static string GetExceptionType(Exception exception)

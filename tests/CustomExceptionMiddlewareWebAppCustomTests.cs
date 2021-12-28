@@ -1,4 +1,5 @@
-﻿using CustomExceptionMiddleware.WebAppTest.Custom;
+﻿using CustomExceptionMiddleware.Responses;
+using CustomExceptionMiddleware.WebAppTest.Custom;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc.Testing;
 using System.Collections.Generic;
