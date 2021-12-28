@@ -16,12 +16,12 @@ namespace CustomExceptionMiddleware.WebAppTest
         public InvalidStateException(string message, Exception innerException) : base(message, innerException)
         { }
 
-        public InvalidStateException(string message, string exceptionType) : base(message)
+        public InvalidStateException(string message, string exceptionType) : base(message, exceptionType)
         {
             ExceptionType = exceptionType;
         }
 
-        public InvalidStateException(string message, string exceptionType, Exception innerException) : base(message, innerException)
+        public InvalidStateException(string message, string exceptionType, Exception innerException) : base(message, exceptionType, innerException)
         {
             ExceptionType = exceptionType;
         }
