@@ -27,10 +27,5 @@ namespace CustomExceptionMiddleware.CustomExceptions
         {
             ExceptionType = exceptionType;
         }
-
-        protected NotFoundException(SerializationInfo info, string exceptionType, StreamingContext context) : base(info, context)
-        {
-            ExceptionType = exceptionType;
-        }
     }
 }

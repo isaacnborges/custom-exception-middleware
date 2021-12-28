@@ -18,6 +18,14 @@ namespace CustomExceptionMiddleware.WebAppTest.Custom
             throw new CustomDomainException("Custom domain exception message");
         }
 
+        public IEnumerable<Product> GetCustomDomainException(bool returnProducts)
+        {
+            if (returnProducts)
+                return GetProducts();
+
+            throw new CustomDomainException("Custom domain exception message", "OTHER_CUSTOM_TYPE");
+        }
+
         private static IEnumerable<Product> GetProducts(int customersCount = 10)
         {
             var fake = new Faker<Product>()

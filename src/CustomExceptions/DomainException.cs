@@ -15,9 +15,6 @@ namespace CustomExceptionMiddleware.CustomExceptions
         protected DomainException(string message, Exception innerException) : base(message, innerException)
         { }
 
-        protected DomainException(SerializationInfo info, StreamingContext context) : base(info, context)
-        { }
-
         protected DomainException(string message, string exceptionType) : base(message)
         {
             ExceptionType = exceptionType;
@@ -28,9 +25,7 @@ namespace CustomExceptionMiddleware.CustomExceptions
             ExceptionType = exceptionType;
         }
 
-        protected DomainException(SerializationInfo info, string exceptionType, StreamingContext context) : base(info, context)
-        {
-            ExceptionType = exceptionType;
-        }
+        protected DomainException(SerializationInfo info, StreamingContext context) : base(info, context)
+        { }
     }
 }

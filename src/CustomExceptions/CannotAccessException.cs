@@ -15,9 +15,6 @@ namespace CustomExceptionMiddleware.CustomExceptions
         public CannotAccessException(string message, Exception innerException) : base(message, innerException)
         { }
 
-        protected CannotAccessException(SerializationInfo info, StreamingContext context) : base(info, context)
-        { }
-
         public CannotAccessException(string message, string exceptionType) : base(message)
         {
             ExceptionType = exceptionType;
@@ -28,9 +25,7 @@ namespace CustomExceptionMiddleware.CustomExceptions
             ExceptionType = exceptionType;
         }
 
-        protected CannotAccessException(SerializationInfo info, string exceptionType, StreamingContext context) : base(info, context)
-        {
-            ExceptionType = exceptionType;
-        }
+        protected CannotAccessException(SerializationInfo info, StreamingContext context) : base(info, context)
+        { }
     }
 }
