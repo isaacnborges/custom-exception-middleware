@@ -16,6 +16,16 @@ namespace CustomExceptionMiddleware.WebAppTest.Custom
         public CustomDomainException(string message, Exception innerException) : base(message, innerException)
         { }
 
+        public CustomDomainException(string message, string exceptionType) : base(message, exceptionType)
+        {
+            ExceptionType = exceptionType;
+        }
+
+        public CustomDomainException(string message, string exceptionType, Exception innerException) : base(message, exceptionType, innerException)
+        {
+            ExceptionType = exceptionType;
+        }
+
         protected CustomDomainException(SerializationInfo info, StreamingContext context) : base(info, context)
         { }
     }

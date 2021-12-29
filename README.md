@@ -113,6 +113,12 @@ throw new NotFoundException("Custom not found exception message");
 throw new Exception("Custom exception message");
 ```
 
+#### Customize exception type
+It's possible to customize the exception type when throw an exception, just pass the type in an exception constructor. 
+```c#
+throw new CustomDomainException("Custom domain exception message", "OTHER_CUSTOM_TYPE");
+```
+
 ### Samples
 Inside the `samples` folder has two projects that could be used for test the and validate the middleware.
 

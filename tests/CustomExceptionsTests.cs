@@ -10,6 +10,7 @@ namespace CustomExceptionMiddleware.Tests
     public class CustomExceptionsTests
     {
         private readonly string _errorMessage = "Custom error message example";
+        private readonly string _exceptionType = "NEWEXCEPTION_ERROR";
 
         #region CannotAccessException
         [Fact(DisplayName = "Should throw cannot access exception")]
@@ -37,6 +38,26 @@ namespace CustomExceptionMiddleware.Tests
         {
             // Act
             Action action = () => throw new CannotAccessException(_errorMessage, new CannotAccessException());
+
+            // Assert
+            action.Should().Throw<CannotAccessException>().WithMessage(_errorMessage).WithInnerException<CannotAccessException>();
+        }
+
+        [Fact(DisplayName = "Should throw cannot access exception with message and exception type")]
+        public void NewCannotAccessException_ThrowException_ShouldThrowCannotAccessExceptionWithMessageAndExceptionType()
+        {
+            // Act
+            Action action = () => throw new CannotAccessException(_errorMessage, _exceptionType);
+
+            // Assert
+            action.Should().Throw<CannotAccessException>().WithMessage(_errorMessage);
+        }
+
+        [Fact(DisplayName = "Should throw cannot access exception with message, exception type and inner exception")]
+        public void NewCannotAccessException_ThrowException_ShouldThrowCannotAccessExceptionWithMessageAndExceptionTypeAndInnerException()
+        {
+            // Act
+            Action action = () => throw new CannotAccessException(_errorMessage, _exceptionType, new CannotAccessException());
 
             // Assert
             action.Should().Throw<CannotAccessException>().WithMessage(_errorMessage).WithInnerException<CannotAccessException>();
@@ -73,6 +94,26 @@ namespace CustomExceptionMiddleware.Tests
             // Assert
             action.Should().Throw<NotFoundException>().WithMessage(_errorMessage).WithInnerException<NotFoundException>();
         }
+
+        [Fact(DisplayName = "Should throw not found exception with message and exception type")]
+        public void NewNotFoundException_ThrowException_ShouldThrowNotFoundExceptionWithMessageAndExceptionType()
+        {
+            // Act
+            Action action = () => throw new NotFoundException(_errorMessage, _exceptionType);
+
+            // Assert
+            action.Should().Throw<NotFoundException>().WithMessage(_errorMessage);
+        }
+
+        [Fact(DisplayName = "Should throw not found exception with message, exception type and inner exception")]
+        public void NewNotFoundException_ThrowException_ShouldThrowNotFoundExceptionWithMessageAndExceptionTypeAndInnerException()
+        {
+            // Act
+            Action action = () => throw new NotFoundException(_errorMessage, _exceptionType, new NotFoundException());
+
+            // Assert
+            action.Should().Throw<NotFoundException>().WithMessage(_errorMessage).WithInnerException<NotFoundException>();
+        }
         #endregion
 
         #region DomainException/InvalidStateException
@@ -105,6 +146,26 @@ namespace CustomExceptionMiddleware.Tests
             // Assert
             action.Should().Throw<InvalidStateException>().WithMessage(_errorMessage).WithInnerException<InvalidStateException>();
         }
+
+        [Fact(DisplayName = "Should throw invalid state exception with message and exception type")]
+        public void NewInvalidStateException_ThrowException_ShouldThrowInvalidStateExceptionWithMessageAndExceptionType()
+        {
+            // Act
+            Action action = () => throw new InvalidStateException(_errorMessage, _exceptionType);
+
+            // Assert
+            action.Should().Throw<InvalidStateException>().WithMessage(_errorMessage);
+        }
+
+        [Fact(DisplayName = "Should throw not found exception with message, exception type and inner exception")]
+        public void NewInvalidStateException_ThrowException_ShouldThrowInvalidStateExceptionWithMessageAndExceptionTypeAndInnerException()
+        {
+            // Act
+            Action action = () => throw new InvalidStateException(_errorMessage, _exceptionType, new InvalidStateException());
+
+            // Assert
+            action.Should().Throw<InvalidStateException>().WithMessage(_errorMessage).WithInnerException<InvalidStateException>();
+        }
         #endregion
 
         #region DomainException/CustomDomainException
@@ -133,6 +194,26 @@ namespace CustomExceptionMiddleware.Tests
         {
             // Act
             Action action = () => throw new CustomDomainException(_errorMessage, new CustomDomainException());
+
+            // Assert
+            action.Should().Throw<CustomDomainException>().WithMessage(_errorMessage).WithInnerException<CustomDomainException>();
+        }
+
+        [Fact(DisplayName = "Should throw custom domain exception with message and exception type")]
+        public void NewCustomDomainException_ThrowException_ShouldThrowCustomDomainExceptionWithMessageAndExceptionType()
+        {
+            // Act
+            Action action = () => throw new CustomDomainException(_errorMessage, _exceptionType);
+
+            // Assert
+            action.Should().Throw<CustomDomainException>().WithMessage(_errorMessage);
+        }
+
+        [Fact(DisplayName = "Should throw not found exception with message, exception type and inner exception")]
+        public void NewCustomDomainException_ThrowException_ShouldThrowCustomDomainExceptionWithMessageAndExceptionTypeAndInnerException()
+        {
+            // Act
+            Action action = () => throw new CustomDomainException(_errorMessage, _exceptionType, new CustomDomainException());
 
             // Assert
             action.Should().Throw<CustomDomainException>().WithMessage(_errorMessage).WithInnerException<CustomDomainException>();

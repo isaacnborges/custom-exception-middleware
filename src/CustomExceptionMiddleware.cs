@@ -1,4 +1,6 @@
 ﻿using CustomExceptionMiddleware.CustomExceptions;
+using CustomExceptionMiddleware.Extensions;
+using CustomExceptionMiddleware.Responses;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.Extensions.Logging;
@@ -114,29 +116,19 @@ namespace CustomExceptionMiddleware
         {
             if (_options.ViewStackTrace)
             {
-                return new CustomErrorDetailResponse
-                {
-                    Type = GetExceptionType(exception),
-                    Error = new CustomErrorDetail(exception.Message, exception.StackTrace)
-                };
+                return new CustomErrorDetailResponse(GetExceptionType(exception), new CustomErrorDetail(exception.Message, exception.StackTrace));
             }
 
-            return new CustomErrorResponse
-            {
-                Type = GetExceptionType(exception),
-                Error = new CustomError(exception.Message)
-            };
+            return new CustomErrorResponse(GetExceptionType(exception), new CustomError(exception.Message));
         }
 
         private static string GetExceptionType(Exception exception)
         {
             var exceptionType = UnexpectedError;
 
-            if (exception.GetType().BaseType.Name.Equals(nameof(DomainException)) ||
-                exception.GetType().Name.Equals(nameof(CannotAccessException)) ||
-                exception.GetType().Name.Equals(nameof(NotFoundException)))
+            if (exception is CustomException customException)
             {
-                exceptionType = ValidationErrors;
+                exceptionType = string.IsNullOrEmpty(customException.ExceptionType) ? ValidationErrors : customException.ExceptionType;
             }
 
             return exceptionType;

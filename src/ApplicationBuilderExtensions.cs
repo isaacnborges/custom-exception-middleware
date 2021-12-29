@@ -8,7 +8,7 @@ namespace CustomExceptionMiddleware
     /// <summary>
     /// Extension methods to add custom exception handling to an HTTP application pipeline.
     /// </summary>
-    public static class CustomExceptionMiddlewareExtensions
+    public static class ApplicationBuilderExtensions
     {
         /// <summary>
         /// Adds the <see cref="CustomExceptionMiddleware"/> to the specified <see cref="IApplicationBuilder"/>, which enables handling exceptions capabilities.

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace CustomExceptionMiddleware
+namespace CustomExceptionMiddleware.Extensions
 {
     public static class EnumExtensions
     {
