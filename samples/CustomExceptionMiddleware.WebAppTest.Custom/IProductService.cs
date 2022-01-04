@@ -6,5 +6,6 @@ namespace CustomExceptionMiddleware.WebAppTest.Custom
     {
         IEnumerable<Product> Get(int productsCount);
         IEnumerable<Product> GetDomainException(bool returnProducts);
+        IEnumerable<Product> GetCustomDomainException(bool returnProducts);
     }
 }

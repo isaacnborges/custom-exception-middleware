@@ -1,4 +1,5 @@
-﻿using FluentAssertions;
+﻿using CustomExceptionMiddleware.Responses;
+using FluentAssertions;
 using Xunit;
 
 namespace CustomExceptionMiddleware.Tests
@@ -28,11 +29,7 @@ namespace CustomExceptionMiddleware.Tests
             var customError = new CustomError();
 
             // Act
-            var response = new CustomErrorResponse
-            {
-                Type = type,
-                Error = customError
-            };
+            var response = new CustomErrorResponse(type, customError);
 
             // Assert
             response.Type.Should().Be(type);
@@ -60,10 +57,7 @@ namespace CustomExceptionMiddleware.Tests
             var msg = "new test error message";
 
             // Act
-            var response = new CustomError
-            {
-                Msg = msg
-            };
+            var response = new CustomError(msg);
 
             // Assert
             response.Msg.Should().Be(msg);

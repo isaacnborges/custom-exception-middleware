@@ -27,6 +27,13 @@ namespace CustomExceptionMiddleware.WebAppTest.Custom.Controllers
             return Ok(result);
         }
 
+        [HttpGet("custom-domain")]
+        public IActionResult GetCustomDomain([FromQuery] bool returnProduct = false)
+        {
+            var result = _productService.GetCustomDomainException(returnProduct);
+            return Ok(result);
+        }
+
         [IgnoreCustomException]
         [HttpGet("ignore")]
         public IActionResult GetIgnore()

@@ -1,4 +1,6 @@
 ﻿using CustomExceptionMiddleware.CustomExceptions;
+using CustomExceptionMiddleware.Extensions;
+using CustomExceptionMiddleware.Responses;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.Extensions.Logging;
@@ -114,18 +116,22 @@ namespace CustomExceptionMiddleware
         {
             if (_options.ViewStackTrace)
             {
-                return new CustomErrorDetailResponse
-                {
-                    Type = exception.GetType().Name.Equals(nameof(Exception)) ? UnexpectedError : ValidationErrors,
-                    Error = new CustomErrorDetail(exception.Message, exception.StackTrace)
-                };
+                return new CustomErrorDetailResponse(GetExceptionType(exception), new CustomErrorDetail(exception.Message, exception.StackTrace));
             }
 
-            return new CustomErrorResponse
+            return new CustomErrorResponse(GetExceptionType(exception), new CustomError(exception.Message));
+        }
+
+        private static string GetExceptionType(Exception exception)
+        {
+            var exceptionType = UnexpectedError;
+
+            if (exception is CustomException customException)
             {
-                Type = exception.GetType().Name.Equals(nameof(Exception)) ? UnexpectedError : ValidationErrors,
-                Error = new CustomError(exception.Message)
-            };
+                exceptionType = string.IsNullOrEmpty(customException.ExceptionType) ? ValidationErrors : customException.ExceptionType;
+            }
+
+            return exceptionType;
         }
 
         private static void ConfigureResponseContext(HttpContext httpContext, HttpStatusCode statusCode)

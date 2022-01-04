@@ -68,11 +68,11 @@ In both cases the output will include de stack trace in `detail` object property
 Example output
 ```json
 {
+    "type": "VALIDATION_ERRORS",
     "error": {
         "msg": "Custom domain exception message",
         "detail": "at CustomExceptionMiddleware.WebAppTest.Custom.ProductService.GetDomainException(Boolean returnProducts) in C:\\isaacnborges\\projects\\custom-exception-middleware\\tests\\CustomExceptionMiddleware.WebAppTest.Custom\\ProductService.cs:line 18\r\n   at CustomExceptionMiddleware.WebAppTest.Custom.Controllers.ProductController.GetDomain(Boolean returnProduct) in C:\\isaacnborges\\projects\\custom-exception-middleware\\tests\\CustomExceptionMiddleware.WebAppTest.Custom\\Controllers\\ProductController.cs:line 26"
-    },
-    "type": "VALIDATION_ERRORS"
+    }
 }
 ```
 
@@ -94,8 +94,14 @@ The custom middleware supports the following **Exceptions**:
 ```c#
 public class InvalidStateException : DomainException
 {
-    public InvalidStateException(string message) : base(message)
-    { }
+        public InvalidStateException()
+        { }
+
+        public InvalidStateException(string message) : base(message)
+        { }
+
+        public InvalidStateException(string message, Exception innerException) : base(message, innerException)
+        { }
 }
 ```
 
@@ -107,14 +113,35 @@ throw new NotFoundException("Custom not found exception message");
 throw new Exception("Custom exception message");
 ```
 
-### Sample example
-Open `docs` folder, inside has a [postman](https://www.postman.com/) collection that could be used for test the sample projects with some requests and validate the middleware in use.
+#### Customize exception type
+It's possible to customize the exception type when throw an exception, just pass the type in an exception constructor. 
+```c#
+throw new CustomDomainException("Custom domain exception message", "OTHER_CUSTOM_TYPE");
+```
+
+### Samples
+Inside the `samples` folder has two projects that could be used for test the and validate the middleware.
+
+#### Run the sample projects
+- WebAppTest
+    ```
+    dotnet run --project .\samples\CustomExceptionMiddleware.WebAppTest\
+    ```
+- WebAppTest.Custom
+    ```
+    dotnet run --project .\samples\CustomExceptionMiddleware.WebAppTest.Custom\
+    ```
+#### Samples documentation
+- Swagger
+    - [WebAppTest](http://localhost:5000/swagger/index.html)
+    - [WebAppTest.Custom](http://localhost:5001/swagger/index.html)
+- Postman
+    - Open `docs` folder, inside has a [postman](https://www.postman.com/) collection that could be used for test.
 
 ## Logging
 This middleware will `Log` some informations that can be used for monitoring and observability, like `TraceIdentifier`, request and exception informations like message type and stack trace:
 
 Example log:
-
 ```
 Occurred an exception - TraceId: 0HMBO9LGH0JHD:00000002 - ExceptionType: InvalidStateException - Message: Custom domain exception message
 CustomExceptionMiddleware.WebAppTest.InvalidStateException: Custom domain exception message
