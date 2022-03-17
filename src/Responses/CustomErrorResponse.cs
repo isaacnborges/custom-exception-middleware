@@ -5,6 +5,7 @@
         /// <summary>
         /// Exception type to identificate what error was throw
         /// </summary>
+        /// <example>VALIDATION_ERRORS</example>
         public string Type { get; set; }
 
         /// <summary>
@@ -35,6 +36,7 @@
         /// <summary>
         /// Error message
         /// </summary>
+        /// <example>Item not found</example>
         public string Msg { get; set; }
 
         /// <summary>
