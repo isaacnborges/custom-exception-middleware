@@ -87,6 +87,22 @@ namespace CustomExceptionMiddleware.Tests
             responseContent.Error.Msg.Should().Be("Custom not found exception message");
             responseContent.Type.Should().Be(ValidationErrors);
         }
+        
+        [Fact(DisplayName = "Should return unauthorized and throw an unauthorized exception")]
+        public async Task GetAsync_ThrowUnauthorizedException_ShouldUnauthorized()
+        {
+            // Arrange
+            _url += "/unauthorized";
+
+            // Act
+            var response = await _client.GetAsync(_url);
+
+            // Assert
+            response.Should().Be401Unauthorized();
+            var responseContent = await response.Content.ReadAsAsync<CustomErrorResponse>();
+            responseContent.Error.Msg.Should().Be("Custom unauthorized exception message");
+            responseContent.Type.Should().Be(ValidationErrors);
+        }
 
         [Fact(DisplayName = "Should return internal server error and throw an exception")]
         public async Task GetAsync_ThrowException_ShouldReturnInternalServerError()
@@ -139,6 +155,21 @@ namespace CustomExceptionMiddleware.Tests
         {
             // Arrange
             _url += $"/not-found?returnCustomer={true}";
+
+            // Act
+            var response = await _client.GetAsync(_url);
+
+            // Assert
+            response.Should().Be200Ok();
+            var responseContent = await response.Content.ReadAsAsync<IEnumerable<Customer>>();
+            responseContent.Should().NotBeNullOrEmpty();
+        }
+        
+        [Fact(DisplayName = "Should return Ok and get customers from unauthorized url")]
+        public async Task GetAsyncUnauthorized_GetCustomers_ShouldReturnOK()
+        {
+            // Arrange
+            _url += $"/unauthorized?returnCustomer={true}";
 
             // Act
             var response = await _client.GetAsync(_url);

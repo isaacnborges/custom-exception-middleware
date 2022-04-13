@@ -40,6 +40,13 @@ namespace CustomExceptionMiddleware.WebAppTest.Controllers
             var result = _customerService.GetNotFoundException(returnCustomer);
             return Ok(result);
         }
+        
+        [HttpGet("unauthorized")]
+        public IActionResult GetUnauthorized([FromQuery] bool returnCustomer = false)
+        {
+            var result = _customerService.GetUnauthorizedException(returnCustomer);
+            return Ok(result);
+        }
 
         [HttpGet("exception")]
         public IActionResult GetException([FromQuery] bool returnCustomer = false)

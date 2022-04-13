@@ -35,6 +35,14 @@ namespace CustomExceptionMiddleware.WebAppTest
 
             throw new NotFoundException("Custom not found exception message");
         }
+        
+        public IEnumerable<Customer> GetUnauthorizedException(bool returnCustomers)
+        {
+            if (returnCustomers)
+                return GetCustomers();
+
+            throw new UnauthorizedException("Custom unauthorized exception message");
+        }
 
         public IEnumerable<Customer> GetException(bool returnCustomers)
         {
