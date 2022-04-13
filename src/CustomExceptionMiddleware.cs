@@ -63,6 +63,10 @@ namespace CustomExceptionMiddleware
             {
                 await HandleNotFoundException(httpContext, ex);
             }
+            catch (UnauthorizedException ex) when (NotContainExceptionAttribute(httpContext))
+            {
+                await HandleUnauthorizedException(httpContext, ex);
+            }
             catch (Exception ex) when (NotContainExceptionAttribute(httpContext))
             {
                 await HandleInternalServerErrorException(httpContext, ex);
@@ -82,6 +86,11 @@ namespace CustomExceptionMiddleware
         private async Task HandleNotFoundException(HttpContext httpContext, NotFoundException exception)
         {
             await HandleException(httpContext, exception, HttpStatusCode.NotFound);
+        }
+        
+        private async Task HandleUnauthorizedException(HttpContext httpContext, UnauthorizedException exception)
+        {
+            await HandleException(httpContext, exception, HttpStatusCode.Unauthorized);
         }
 
         private async Task HandleInternalServerErrorException(HttpContext httpContext, Exception exception)
