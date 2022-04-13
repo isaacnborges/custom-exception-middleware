@@ -86,6 +86,7 @@ The custom middleware supports the following **Exceptions**:
 | DomainException       | BadRequest              | 400         |
 | CannotAccessException | Forbidden               | 403         |
 | NotFoundException     | NotFound                | 404         |
+| UnauthorizedException | Unauthorized            | 401         |
 | Exception             | InternalServerError     | 500         |
 
 `DomainException` is an abstract exception, so to use it's necessary create other exception and inherit. The others exceptions only throw an exception
@@ -110,6 +111,7 @@ public class InvalidStateException : DomainException
 throw new InvalidStateException("Custom domain exception message");
 throw new CannotAccessException("Custom cannot access exception message");
 throw new NotFoundException("Custom not found exception message");
+throw new UnauthorizedException("Custom unauthorized exception message");
 throw new Exception("Custom exception message");
 ```
 
