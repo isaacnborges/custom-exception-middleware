@@ -55,6 +55,10 @@ namespace CustomExceptionMiddleware
             {
                 await HandleDomainException(httpContext, ex);
             }
+            catch (UnauthorizedException ex) when (NotContainExceptionAttribute(httpContext))
+            {
+                await HandleUnauthorizedException(httpContext, ex);
+            }
             catch (CannotAccessException ex) when (NotContainExceptionAttribute(httpContext))
             {
                 await HandleCannotAccessException(httpContext, ex);
@@ -72,6 +76,11 @@ namespace CustomExceptionMiddleware
         private async Task HandleDomainException(HttpContext httpContext, DomainException exception)
         {
             await HandleException(httpContext, exception, HttpStatusCode.BadRequest);
+        }
+
+        private async Task HandleUnauthorizedException(HttpContext httpContext, UnauthorizedException exception)
+        {
+            await HandleException(httpContext, exception, HttpStatusCode.Unauthorized);
         }
 
         private async Task HandleCannotAccessException(HttpContext httpContext, CannotAccessException exception)

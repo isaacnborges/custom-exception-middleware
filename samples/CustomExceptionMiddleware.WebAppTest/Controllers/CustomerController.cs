@@ -27,6 +27,13 @@ namespace CustomExceptionMiddleware.WebAppTest.Controllers
             return Ok(result);
         }
 
+        [HttpGet("unauthorized")]
+        public IActionResult GetUnauthorized([FromQuery] bool returnCustomer = false)
+        {
+            var result = _customerService.GetUnauthorizedException(returnCustomer);
+            return Ok(result);
+        }
+
         [HttpGet("cannot-access")]
         public IActionResult GetCannotAccess([FromQuery] bool returnCustomer = false)
         {

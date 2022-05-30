@@ -12,6 +12,58 @@ namespace CustomExceptionMiddleware.Tests
         private readonly string _errorMessage = "Custom error message example";
         private readonly string _exceptionType = "NEWEXCEPTION_ERROR";
 
+        #region UnauthorizedException
+        [Fact(DisplayName = "Should throw unauthorized exception")]
+        public void NewUnauthorizedException_ThrowException_ShouldThrowUnauthorizedException()
+        {
+            // Act
+            Action action = () => throw new UnauthorizedException();
+
+            // Assert
+            action.Should().Throw<UnauthorizedException>();
+        }
+
+        [Fact(DisplayName = "Should throw unauthorized exception with message")]
+        public void NewUnauthorizedException_ThrowException_ShouldThrowUnauthorizedExceptionWithMessage()
+        {
+            // Act
+            Action action = () => throw new UnauthorizedException(_errorMessage);
+
+            // Assert
+            action.Should().Throw<UnauthorizedException>().WithMessage(_errorMessage);
+        }
+
+        [Fact(DisplayName = "Should throw unauthorized exception with message and inner exception")]
+        public void NewUnauthorizedException_ThrowException_ShouldThrowUnauthorizedExceptionWithMessageAndInnerException()
+        {
+            // Act
+            Action action = () => throw new UnauthorizedException(_errorMessage, new UnauthorizedException());
+
+            // Assert
+            action.Should().Throw<UnauthorizedException>().WithMessage(_errorMessage).WithInnerException<UnauthorizedException>();
+        }
+
+        [Fact(DisplayName = "Should throw unauthorized exception with message and exception type")]
+        public void NewUnauthorizedException_ThrowException_ShouldThrowUnauthorizedExceptionWithMessageAndExceptionType()
+        {
+            // Act
+            Action action = () => throw new UnauthorizedException(_errorMessage, _exceptionType);
+
+            // Assert
+            action.Should().Throw<UnauthorizedException>().WithMessage(_errorMessage);
+        }
+
+        [Fact(DisplayName = "Should throw unauthorized exception with message, exception type and inner exception")]
+        public void NewUnauthorizedException_ThrowException_ShouldThrowUnauthorizedExceptionWithMessageAndExceptionTypeAndInnerException()
+        {
+            // Act
+            Action action = () => throw new UnauthorizedException(_errorMessage, _exceptionType, new UnauthorizedException());
+
+            // Assert
+            action.Should().Throw<UnauthorizedException>().WithMessage(_errorMessage).WithInnerException<UnauthorizedException>();
+        }
+        #endregion
+
         #region CannotAccessException
         [Fact(DisplayName = "Should throw cannot access exception")]
         public void NewCannotAccessException_ThrowException_ShouldThrowCannotAccessException()

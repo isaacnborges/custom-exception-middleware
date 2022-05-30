@@ -56,6 +56,22 @@ namespace CustomExceptionMiddleware.Tests
             responseContent.Type.Should().Be(ValidationErrors);
         }
 
+        [Fact(DisplayName = "Should return unauthorized and throw an unauthorized exception")]
+        public async Task GetAsync_ThrowUnauthorizedException_ShouldUnauthorized()
+        {
+            // Arrange
+            _url += "/unauthorized";
+
+            // Act
+            var response = await _client.GetAsync(_url);
+
+            // Assert
+            response.Should().Be401Unauthorized();
+            var responseContent = await response.Content.ReadAsAsync<CustomErrorResponse>();
+            responseContent.Error.Msg.Should().Be("Custom unauthorized exception message");
+            responseContent.Type.Should().Be(ValidationErrors);
+        }
+
         [Fact(DisplayName = "Should return forbidden and throw a cannot access exception")]
         public async Task GetAsync_ThrowCannotAccessException_ShouldReturnForbidden()
         {
@@ -109,6 +125,21 @@ namespace CustomExceptionMiddleware.Tests
         {
             // Arrange
             _url += $"/domain?returnCustomer={true}";
+
+            // Act
+            var response = await _client.GetAsync(_url);
+
+            // Assert
+            response.Should().Be200Ok();
+            var responseContent = await response.Content.ReadAsAsync<IEnumerable<Customer>>();
+            responseContent.Should().NotBeNullOrEmpty();
+        }
+
+        [Fact(DisplayName = "Should return Ok and get customers from unauthorized url")]
+        public async Task GetAsyncUnauthorized_GetCustomers_ShouldReturnOK()
+        {
+            // Arrange
+            _url += $"/unauthorized?returnCustomer={true}";
 
             // Act
             var response = await _client.GetAsync(_url);
