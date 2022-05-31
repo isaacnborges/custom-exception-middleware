@@ -84,6 +84,7 @@ The custom middleware supports the following **Exceptions**:
 | Exception             | Status code description | Status code |
 |-----------------------|-------------------------|:-----------:|
 | DomainException       | BadRequest              | 400         |
+| UnauthorizedException | Unauthorized            | 401         |
 | CannotAccessException | Forbidden               | 403         |
 | NotFoundException     | NotFound                | 404         |
 | Exception             | InternalServerError     | 500         |
@@ -108,6 +109,7 @@ public class InvalidStateException : DomainException
 #### Throw exceptions
 ```c#
 throw new InvalidStateException("Custom domain exception message");
+throw new UnauthorizedException("Custom unauthorized exception message");
 throw new CannotAccessException("Custom cannot access exception message");
 throw new NotFoundException("Custom not found exception message");
 throw new Exception("Custom exception message");
