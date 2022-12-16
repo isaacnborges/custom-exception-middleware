@@ -32,7 +32,13 @@ It's very simple to use, go to `Startup.cs` on `Configure()` method and add this
 app.UseCustomExceptionMiddleware();
 ```
 
-Example output    
+Or if you are using any of the newer versions of .NET put the code after the app `build` on `Program.cs` file.
+```c#
+var app = builder.Build();
+app.UseCustomExceptionMiddleware();
+```
+
+Example output
 ```json
 {
     "type": "VALIDATION_ERRORS",
