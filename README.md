@@ -23,7 +23,7 @@ dotnet add package CustomExceptionMiddleware
 
 ### Minimum requirements to use: [.NET Standard 2.0](https://docs.microsoft.com/en-us/dotnet/standard/net-standard)
 
-### Compilation requirements: [.NET 6](https://dotnet.microsoft.com/download/dotnet/6.0)
+### Compilation requirements: [.NET 8](https://dotnet.microsoft.com/download/dotnet/8.0)
 
 ## How to use
 
